@@ -154,8 +154,8 @@ body::after {
 
 /* ============ Hero marquee ============ */
 .hero-marquee {
-  width: 280px;
-  max-width: 28vw;
+  width: 320px;
+  max-width: 32vw;
   height: 60vh;
   max-height: 540px;
   display: flex;
@@ -163,6 +163,7 @@ body::after {
   gap: 1.25rem;
   border-left: 1px solid var(--border-strong);
   padding-left: 2rem;
+  overflow: hidden;
 }
 
 .marquee-label {
@@ -186,7 +187,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  animation: marquee-up 14s linear infinite;
+  animation: marquee-up 28s linear infinite;
 }
 
 @keyframes marquee-up {
@@ -202,8 +203,9 @@ body::after {
   display: flex;
   gap: 0.9rem;
   align-items: baseline;
-  white-space: nowrap;
-  line-height: 1.3;
+  white-space: normal;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .marquee-item .idx {
@@ -248,40 +250,10 @@ body::after {
   transform: scaleY(-1);
 }
 
-.waves {
+.waves-canvas {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-.wave-parallax > use {
-  animation: wave-move 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-}
-
-.wave-parallax > use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 9s;
-}
-.wave-parallax > use:nth-child(2) {
-  animation-delay: -3s;
-  animation-duration: 13s;
-}
-.wave-parallax > use:nth-child(3) {
-  animation-delay: -4s;
-  animation-duration: 17s;
-}
-.wave-parallax > use:nth-child(4) {
-  animation-delay: -5s;
-  animation-duration: 22s;
-}
-
-@keyframes wave-move {
-  0% { transform: translate3d(-90px, 0, 0); }
-  100% { transform: translate3d(85px, 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wave-parallax > use { animation: none; }
 }
 
 /* ============ Hero scroll hint ============ */
@@ -349,8 +321,11 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding: 0.25rem 0 1rem;
   border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
 }
 
 .nav-id {
@@ -381,7 +356,7 @@ nav {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.25rem;
   align-items: center;
   list-style: none;
 }
@@ -389,31 +364,22 @@ nav {
 .nav-links a {
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .nav-links a:hover {
   color: var(--accent);
+  transform: translateY(-1px);
 }
 
-.nav-links a:hover::after {
-  width: 100%;
+.nav-links svg {
+  display: block;
+  width: 18px;
+  height: 18px;
 }
 
 /* Main grid */
