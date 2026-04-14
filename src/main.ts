@@ -6,8 +6,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <section class="hero snap" id="hero">
     <div class="hero-inner">
       <div class="hero-label">— hi, my name is</div>
-      <h1 class="hero-name">tristan<br/>villegas.</h1>
-      <p class="hero-tag">surfer · coder · reader</p>
+      <h1 class="hero-name">cesar<br/>villegas.</h1>
+      <p class="hero-tag">programmer · runner · surfer · reader</p>
+    </div>
+    <div class="waves-container" aria-hidden="true">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="wave-parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(41, 15, 18, 0.14)" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(41, 15, 18, 0.10)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(41, 15, 18, 0.06)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(41, 15, 18, 0.04)" />
+        </g>
+      </svg>
     </div>
     <button class="hero-scroll" type="button" aria-label="Scroll to continue">
       <span>scroll or arrows to continue</span>
@@ -20,7 +33,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <nav>
         <div class="nav-id">
           <span class="nav-dot"></span>
-          TRISTAN VILLEGAS
+          CESAR VILLEGAS
         </div>
         <ul class="nav-links">
           <li><a href="https://github.com/Allghelierce" target="_blank" rel="noopener">GitHub</a></li>
@@ -32,13 +45,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <main class="grid">
         <section class="intro">
           <div class="label">— currently</div>
-          <h2 class="name">Tristan<br/>Villegas.</h2>
+          <h2 class="name">Cesar.</h2>
           <p class="bio">
-            Surfer, coder, reader. Data Science @ <strong>UCSD '29</strong>, leaning hard into
-            machine learning. Born Cesar — go by my middle name because there are too
-            many of us in the family.
+            Programmer, runner, surfer, reader. Data Science @ <strong>UCSD '29</strong>,
+            leaning hard into machine learning. I go by my middle name Tristan because
+            there are too many Cesar's in the family.
           </p>
-          <div class="stack">python · pytorch · typescript · surfboard</div>
+          <div class="stack">python · typescript · c++ · flutter</div>
         </section>
 
         <section class="meta">
@@ -79,26 +92,104 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </section>
 `
 
-// Snap navigation: click hint + keyboard arrows
+// ============ Snap navigation ============
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
+const sections: HTMLElement[] = [hero, content]
 
-const scrollTo = (el: HTMLElement) => {
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+let currentIdx = 0
+let isAnimating = false
+
+const snapTo = (idx: number) => {
+  if (idx < 0 || idx >= sections.length) return
+  if (idx === currentIdx && !isAnimating) return
+  isAnimating = true
+  currentIdx = idx
+  sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' })
+  window.setTimeout(() => {
+    isAnimating = false
+  }, 850)
 }
 
-scrollHint.addEventListener('click', () => scrollTo(content))
+// Track current section via IntersectionObserver
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+        const idx = sections.indexOf(entry.target as HTMLElement)
+        if (idx !== -1) currentIdx = idx
+      }
+    })
+  },
+  { threshold: [0.55] }
+)
+sections.forEach((s) => sectionObserver.observe(s))
 
+// Click hint
+scrollHint.addEventListener('click', () => snapTo(currentIdx + 1))
+
+// Keyboard arrows
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
     e.preventDefault()
-    scrollTo(content)
+    snapTo(currentIdx + 1)
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
     e.preventDefault()
-    scrollTo(hero)
+    snapTo(currentIdx - 1)
+  } else if (e.key === 'Home') {
+    e.preventDefault()
+    snapTo(0)
+  } else if (e.key === 'End') {
+    e.preventDefault()
+    snapTo(sections.length - 1)
   }
 })
+
+// Wheel / trackpad snap
+let wheelCooldown = false
+window.addEventListener(
+  'wheel',
+  (e) => {
+    if (isAnimating || wheelCooldown) {
+      e.preventDefault()
+      return
+    }
+    if (Math.abs(e.deltaY) < 6) return
+
+    const dir = e.deltaY > 0 ? 1 : -1
+    const next = currentIdx + dir
+    if (next < 0 || next >= sections.length) return
+
+    e.preventDefault()
+    wheelCooldown = true
+    snapTo(next)
+    window.setTimeout(() => {
+      wheelCooldown = false
+    }, 1100)
+  },
+  { passive: false }
+)
+
+// Touch snap (mobile swipe)
+let touchStartY = 0
+window.addEventListener(
+  'touchstart',
+  (e) => {
+    touchStartY = e.touches[0].clientY
+  },
+  { passive: true }
+)
+window.addEventListener(
+  'touchend',
+  (e) => {
+    if (isAnimating) return
+    const dy = touchStartY - e.changedTouches[0].clientY
+    if (Math.abs(dy) < 40) return
+    snapTo(currentIdx + (dy > 0 ? 1 : -1))
+  },
+  { passive: true }
+)
 
 // Custom cursor (desktop only)
 if (window.matchMedia('(pointer: fine)').matches) {
