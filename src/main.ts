@@ -3,29 +3,23 @@ import './style.css'
 const year = new Date().getFullYear()
 
 const marqueeItems = [
-  { idx: '01', label: 'Rust by Facepunch' },
-  { idx: '02', label: '0DTE puts' },
-  { idx: '03', label: 'Building Legos' },
-  { idx: '04', label: 'Driving for no reason' },
-  { idx: '05', label: 'Competitive for no reason' },
-  { idx: '06', label: 'Plants — my room is a jungle' },
-  { idx: '07', label: 'Terrible sleep schedule' },
-  { idx: '08', label: 'Running past midnight' },
-  { idx: '09', label: 'Big waves & offshore wind' },
-  { idx: '10', label: 'Sword Art Online' },
-  { idx: '11', label: 'Messy but not disorganized' },
-  { idx: '12', label: 'Going to the grocery store with my mom' },
-  { idx: '13', label: 'Eating shit at the skatepark' },
-  { idx: '14', label: 'Finding new places around where I live' },
-  { idx: '15', label: 'Fishing with my friends at home' },
+  { label: 'Plants. my room is a jungle' },
+  { label: 'Driving around for no reason' },
+  { label: 'Running late at night' },
+  { label: 'Going to the grocery store with my mom' },
+  { label: 'Walking my dog with my friend' },
+  { label: 'Cowboy Bebop' },
+  { label: 'Terraria' },
+  { label: 'Chocolate milk' },
 ]
 
-const renderMarqueeItems = (dup = false) =>
+const renderMarqueeItems = () =>
   marqueeItems
     .map(
-      (item) => `
-      <div class="marquee-item"${dup ? ' aria-hidden="true"' : ''}>
-        <span class="label-text">${item.label}</span>
+      (_, i) => `
+      <div class="marquee-item" data-type-idx="${i}">
+        <span class="label-text"></span>
+        <span class="type-cursor">|</span>
       </div>
     `
     )
@@ -41,20 +35,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <br/>
           <span class="scramble" data-final="villegas.">villegas.</span>
         </h1>
-        <p class="hero-tag">programmer · runner · surfer · reader</p>
       </div>
-      <aside class="hero-marquee" aria-hidden="true">
-        <div class="marquee-label">— things i like</div>
-        <div class="marquee-viewport">
-          <div class="marquee-track">
-            ${renderMarqueeItems()}
-            ${renderMarqueeItems(true)}
-          </div>
+      <aside class="things-i-like">
+        <div class="label">— things i like</div>
+        <div class="marquee-track">
+          ${renderMarqueeItems()}
         </div>
       </aside>
-    </div>
-    <div class="waves-container waves-bottom" aria-hidden="true">
-      <canvas class="waves-canvas"></canvas>
     </div>
     <button class="hero-scroll" type="button" aria-label="Scroll to continue">
       <span>scroll or arrows to continue</span>
@@ -63,82 +50,96 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </section>
 
   <section class="content snap" id="content">
-    <div class="waves-container waves-top" aria-hidden="true">
-      <canvas class="waves-canvas"></canvas>
-    </div>
-    <div class="page">
-      <nav>
-        <div class="nav-id">
-          <span class="nav-dot"></span>
-          CESAR VILLEGAS
-        </div>
-        <ul class="nav-links">
-          <li>
-            <a href="https://github.com/Allghelierce" target="_blank" rel="noopener" aria-label="GitHub">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-          </li>
-          <li>
-            <a href="mailto:pvt.trisn@gmail.com" aria-label="Email">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <div class="page" id="page2">
+      <div class="page-inner">
 
       <main class="grid">
         <section class="intro">
-          <div class="label">— currently</div>
-          <h2 class="name">Cesar.</h2>
+          <div class="label">i go by:</div>
+          <h2 class="name">Tristan</h2>
           <p class="bio">
             Programmer, runner, surfer, reader. Data Science @ <strong>UCSD '29</strong>,
-            leaning hard into machine learning. I go by my middle name Tristan because
-            there are too many Cesar's in the family.
+            leaning hard into ML and software design. I go by my middle name Tristan because
+            there's too many Cesar's in the family.
           </p>
-          <div class="stack">python · typescript · c++ · flutter</div>
+          <div class="stack">python · typescript · javascript · flutter</div>
+
+          <div class="page-socials-section">
+            <div class="label">my stuff</div>
+            <div class="page-socials">
+            <a href="https://github.com/Allghelierce" target="_blank" rel="noopener" aria-label="GitHub" class="social-link github">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-link linkedin">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="mailto:pvt.trisn@gmail.com" aria-label="Email" class="social-link email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+            </div>
+          </div>
         </section>
 
         <section class="meta">
           <div class="block">
-            <div class="label">01 — focus</div>
+            <div class="label">01 — projects</div>
             <ul class="focus">
               <li>
                 <span class="num">i.</span>
-                <span>Automating my own workflow until I graduate from doing the work to directing it.</span>
+                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a minimalist reading tracker and book discovery app.</span>
               </li>
               <li>
                 <span class="num">ii.</span>
-                <span>Making tedious work fun — shipping twice as fast without burning out.</span>
-              </li>
-              <li>
-                <span class="num">iii.</span>
-                <span>AI agents that can run multi-step tasks across software tools without needing a leash.</span>
+                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a link-sharing platform for quick and easy collaboration.</span>
               </li>
             </ul>
           </div>
 
-          <div class="block">
+          <div class="block block-week">
             <div class="label">02 — this week</div>
             <ul class="week">
               <li>heading home to see my dog</li>
-              <li>casino run w/ a friend — gambling $100 from the hackathon</li>
-              <li>plowing through every missing assignment</li>
+              <li>doing missing assignments</li>
               <li>skipping class</li>
             </ul>
+          </div>
+
+          <div class="block block-note">
+            <div class="label">03 — leave me a note</div>
+            <form class="note-form" id="noteForm">
+              <div class="note-field">
+                <textarea class="note-input" id="noteInput" placeholder="say something..." rows="3"></textarea>
+                <button class="note-send" type="submit" aria-label="Send">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+              </div>
+            </form>
           </div>
         </section>
       </main>
 
       <footer>
-        <span>© ${year} Tristan Villegas</span>
-        <span>La Jolla, CA</span>
-        <span>v1.0</span>
+        <span>© ${year} · v1</span>
       </footer>
+      </div>
+
+      <button class="page-scroll-right" id="scrollRight" type="button" aria-label="Go to next slide">
+        <span>go this way</span>
+        <span class="scroll-arrow-right">→</span>
+      </button>
+    </div>
+
+    <div class="page page-3" id="page3">
+      <div class="gallery-header label">— gallery</div>
+      <div class="photo-gallery">
+        <img src="/pictures/20251211_210120.jpg" class="gallery-photo" />
+        <img src="/pictures/20260315_180427.jpg" class="gallery-photo" />
+        <img src="/pictures/20260406_174410.jpg" class="gallery-photo" />
+        <img src="/pictures/2539835899294480291.jpg" class="gallery-photo" />
+        <img src="/pictures/image4.png" class="gallery-photo" />
+        <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" />
+        <img src="/pictures/20260119_180623.jpg" class="gallery-photo" />
+      </div>
     </div>
   </section>
 `
@@ -150,7 +151,7 @@ class TextScramble {
   private queue: Array<{ from: string; to: string; start: number; end: number; char?: string }> = []
   private frame = 0
   private frameRequest = 0
-  private resolve: () => void = () => {}
+  private resolve: () => void = () => { }
 
   constructor(el: HTMLElement) {
     this.el = el
@@ -226,126 +227,119 @@ scrambleEls.forEach((el, i) => {
   }, 400 + i * 320)
 })
 
-// ============ Flowing waves (canvas) ============
-interface WaveLayer {
-  amp: number
-  freq: number
-  speed: number
-  phase: number
-  yBase: number
-  color: string
-}
+// ============ Typewriter for marquee items ============
+const typewriterItems = Array.from(document.querySelectorAll<HTMLElement>('.marquee-item'))
 
-const waveLayers: WaveLayer[] = [
-  { amp: 26, freq: 0.0090, speed: 0.0018, phase: 0.0, yBase: 0.38, color: 'rgba(41, 15, 18, 0.38)' },
-  { amp: 20, freq: 0.0130, speed: 0.0025, phase: 1.1, yBase: 0.48, color: 'rgba(58, 92, 142, 0.26)' },
-  { amp: 15, freq: 0.0180, speed: 0.0015, phase: 2.3, yBase: 0.56, color: 'rgba(41, 15, 18, 0.20)' },
-  { amp: 11, freq: 0.0230, speed: 0.0032, phase: 3.7, yBase: 0.64, color: 'rgba(58, 92, 142, 0.16)' },
-]
-
-const waveCanvases = Array.from(
-  document.querySelectorAll<HTMLCanvasElement>('.waves-canvas')
-).map((canvas) => ({ canvas, ctx: canvas.getContext('2d')! }))
-
-const dpr = Math.min(window.devicePixelRatio || 1, 2)
-
-const drawWaves = (t: number) => {
-  waveCanvases.forEach(({ canvas, ctx }) => {
-    // Resize buffer to match CSS display size every frame.
-    // Cheap, and guarantees we never draw into a stale buffer.
-    const rect = canvas.getBoundingClientRect()
-    const targetW = Math.max(1, Math.floor(rect.width * dpr))
-    const targetH = Math.max(1, Math.floor(rect.height * dpr))
-    if (rect.width < 1 || rect.height < 1) return
-    if (canvas.width !== targetW || canvas.height !== targetH) {
-      canvas.width = targetW
-      canvas.height = targetH
-    }
-
-    const w = canvas.width
-    const h = canvas.height
-    ctx.clearRect(0, 0, w, h)
-
-    for (const layer of waveLayers) {
-      ctx.beginPath()
-      ctx.moveTo(0, h)
-      const yBase = h * layer.yBase
-      const amp = layer.amp * dpr
-      const freq = layer.freq / dpr
-      const step = 2 * dpr
-      for (let x = 0; x <= w; x += step) {
-        // two overlapping sines + small ripple -> organic, non-repeating swell
-        const primary = Math.sin(x * freq + t * layer.speed + layer.phase) * amp
-        const secondary =
-          Math.sin(x * freq * 2.3 + t * layer.speed * 1.4 + layer.phase * 1.7) * amp * 0.42
-        const ripple = Math.sin(x * freq * 4.7 + t * layer.speed * 0.6) * amp * 0.14
-        const y = yBase + primary + secondary + ripple
-        ctx.lineTo(x, y)
+const typeItemChars = (el: HTMLElement, text: string, charIdx: number): Promise<void> => {
+  return new Promise((resolve) => {
+    const label = el.querySelector('.label-text')!
+    const cursor = el.querySelector('.type-cursor') as HTMLElement
+    const step = () => {
+      if (charIdx <= text.length) {
+        label.textContent = text.slice(0, charIdx)
+        cursor.classList.add('typing')
+        charIdx++
+        setTimeout(step, 28 + Math.random() * 35)
+      } else {
+        cursor.classList.remove('typing')
+        resolve()
       }
-      ctx.lineTo(w, h)
-      ctx.closePath()
-      ctx.fillStyle = layer.color
-      ctx.fill()
     }
+    step()
   })
 }
 
-// Waves always animate — it's a decorative background, not parallax,
-// so reduced-motion users still get the flow.
-const wavesLoop = (t: number) => {
-  drawWaves(t)
-  requestAnimationFrame(wavesLoop)
+const runTypewriter = async () => {
+  await new Promise((r) => setTimeout(r, 900))
+  for (let i = 0; i < typewriterItems.length; i++) {
+    await typeItemChars(typewriterItems[i], marqueeItems[i].label, 0)
+    await new Promise((r) => setTimeout(r, 120))
+  }
 }
-requestAnimationFrame(wavesLoop)
+
+if (prefersReducedMotion) {
+  typewriterItems.forEach((el, i) => {
+    el.querySelector('.label-text')!.textContent = marqueeItems[i].label
+  })
+} else {
+  runTypewriter()
+}
+
+// ============ Note form ============
+const noteForm = document.getElementById('noteForm') as HTMLFormElement
+const noteInput = document.getElementById('noteInput') as HTMLTextAreaElement
+noteForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const msg = noteInput.value.trim()
+  if (!msg) return
+  window.location.href = `mailto:pvt.trisn@gmail.com?subject=Note from your site&body=${encodeURIComponent(msg)}`
+  noteInput.value = ''
+})
 
 // ============ Snap navigation ============
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
+const page2 = document.getElementById('page2')!
+const page3 = document.getElementById('page3')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
-const sections: HTMLElement[] = [hero, content]
+const scrollRight = document.getElementById('scrollRight')!
 
-let currentIdx = 0
+// vertical sections: 0=hero, 1=content
+const vSections: HTMLElement[] = [hero, content]
+let vIdx = 0
+
+// horizontal pages within content: 0=page2, 1=page3
+const hPages: HTMLElement[] = [page2, page3]
+let hIdx = 0
+
 let isAnimating = false
 
-const snapTo = (idx: number) => {
-  if (idx < 0 || idx >= sections.length) return
-  if (idx === currentIdx && !isAnimating) return
+const snapV = (idx: number) => {
+  if (idx < 0 || idx >= vSections.length || isAnimating) return
   isAnimating = true
-  currentIdx = idx
-  sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' })
-  window.setTimeout(() => {
-    isAnimating = false
-  }, 850)
+  vIdx = idx
+  vSections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' })
+  setTimeout(() => { isAnimating = false }, 850)
 }
 
-const sectionObserver = new IntersectionObserver(
+const snapH = (idx: number) => {
+  if (idx < 0 || idx >= hPages.length || isAnimating) return
+  isAnimating = true
+  hIdx = idx
+  content.scrollTo({ left: idx * window.innerWidth, behavior: 'smooth' })
+  setTimeout(() => { isAnimating = false }, 850)
+}
+
+const vObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
-        const idx = sections.indexOf(entry.target as HTMLElement)
-        if (idx !== -1) currentIdx = idx
+        const idx = vSections.indexOf(entry.target as HTMLElement)
+        if (idx !== -1) vIdx = idx
       }
     })
   },
   { threshold: [0.55] }
 )
-sections.forEach((s) => sectionObserver.observe(s))
+vSections.forEach((s) => vObserver.observe(s))
 
-scrollHint.addEventListener('click', () => snapTo(currentIdx + 1))
+scrollHint.addEventListener('click', () => snapV(vIdx + 1))
+scrollRight.addEventListener('click', () => snapH(hIdx + 1))
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
     e.preventDefault()
-    snapTo(currentIdx + 1)
+    if (vIdx === 0) snapV(1)
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
     e.preventDefault()
-    snapTo(currentIdx - 1)
+    if (hIdx > 0) snapH(0)
+    else snapV(vIdx - 1)
+  } else if (e.key === 'ArrowRight') {
+    if (vIdx === 1) { e.preventDefault(); snapH(hIdx + 1) }
+  } else if (e.key === 'ArrowLeft') {
+    if (vIdx === 1) { e.preventDefault(); snapH(hIdx - 1) }
   } else if (e.key === 'Home') {
-    e.preventDefault()
-    snapTo(0)
-  } else if (e.key === 'End') {
-    e.preventDefault()
-    snapTo(sections.length - 1)
+    e.preventDefault(); snapV(0)
   }
 })
 
@@ -353,41 +347,37 @@ let wheelCooldown = false
 window.addEventListener(
   'wheel',
   (e) => {
-    if (isAnimating || wheelCooldown) {
-      e.preventDefault()
-      return
-    }
+    if (isAnimating || wheelCooldown) { e.preventDefault(); return }
     if (Math.abs(e.deltaY) < 6) return
-
     const dir = e.deltaY > 0 ? 1 : -1
-    const next = currentIdx + dir
-    if (next < 0 || next >= sections.length) return
-
     e.preventDefault()
     wheelCooldown = true
-    snapTo(next)
-    window.setTimeout(() => {
-      wheelCooldown = false
-    }, 1100)
+    if (vIdx === 0) {
+      if (dir > 0) snapV(1)
+    } else {
+      if (dir > 0 && hIdx < hPages.length - 1) snapH(hIdx + 1)
+      else if (dir < 0 && hIdx > 0) snapH(hIdx - 1)
+      else if (dir < 0 && hIdx === 0) snapV(0)
+    }
+    setTimeout(() => { wheelCooldown = false }, 1100)
   },
   { passive: false }
 )
 
+let touchStartX = 0
 let touchStartY = 0
-window.addEventListener(
-  'touchstart',
-  (e) => {
-    touchStartY = e.touches[0].clientY
-  },
-  { passive: true }
-)
-window.addEventListener(
-  'touchend',
-  (e) => {
-    if (isAnimating) return
-    const dy = touchStartY - e.changedTouches[0].clientY
-    if (Math.abs(dy) < 40) return
-    snapTo(currentIdx + (dy > 0 ? 1 : -1))
-  },
-  { passive: true }
-)
+window.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX
+  touchStartY = e.touches[0].clientY
+}, { passive: true })
+window.addEventListener('touchend', (e) => {
+  if (isAnimating) return
+  const dx = touchStartX - e.changedTouches[0].clientX
+  const dy = touchStartY - e.changedTouches[0].clientY
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    if (vIdx === 1) snapH(hIdx + (dx > 0 ? 1 : -1))
+  } else if (Math.abs(dy) > 40) {
+    if (dy > 0) { if (vIdx === 0) snapV(1) }
+    else { if (hIdx > 0) snapH(0); else snapV(0) }
+  }
+}, { passive: true })
