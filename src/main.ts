@@ -3,14 +3,14 @@ import './style.css'
 const year = new Date().getFullYear()
 
 const marqueeItems = [
-  { label: 'Plants. my room is a jungle' },
-  { label: 'Driving around for no reason' },
-  { label: 'Running late at night' },
-  { label: 'Going to the grocery store with my mom' },
-  { label: 'Walking my dog with my friend' },
-  { label: 'Cowboy Bebop' },
-  { label: 'Terraria' },
-  { label: 'Chocolate milk' },
+  { label: 'plants. my room is a jungle' },
+  { label: 'driving around for no reason' },
+  { label: 'running late at night' },
+  { label: 'going to the grocery store with my mom' },
+  { label: 'walking my dog with my friend' },
+  { label: 'cowboy bebop' },
+  { label: 'terraria' },
+  { label: 'chocolate milk' },
 ]
 
 const renderMarqueeItems = () =>
@@ -55,8 +55,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
       <main class="grid">
         <section class="intro">
-          <div class="label">i go by:</div>
-          <h2 class="name">Tristan</h2>
+          <div class="label">— but i go by</div>
+          <h2 class="name">tristan</h2>
           <p class="bio">
             Programmer, fisherman, surfer, runner. Data Science @ <strong>UCSD '29</strong>,
             leaning hard into ML and software design. I go by my middle name Tristan because
@@ -65,7 +65,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <div class="stack">python · typescript · javascript · flutter</div>
 
           <div class="page-socials-section">
-            <div class="label">my stuff</div>
+            <div class="label">— my stuff</div>
             <div class="page-socials">
             <a href="https://github.com/Allghelierce" target="_blank" rel="noopener" aria-label="GitHub" class="social-link github">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -82,30 +82,39 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
         <section class="meta">
           <div class="block">
-            <div class="label">01 — projects</div>
+            <div class="label">— projects</div>
             <ul class="focus">
               <li>
-                <span class="num">i.</span>
-                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a gamified note taking app for creatives.</span>
+                <span class="num">i</span>
+                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a gamified note taking app for creatives</span>
               </li>
               <li>
-                <span class="num">ii.</span>
-                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a discord bot that allows indexing an entire server.</span>
+                <span class="num">ii</span>
+                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a discord bot that allows indexing an entire server</span>
               </li>
             </ul>
           </div>
 
           <div class="block block-week">
-            <div class="label">02 — this week</div>
-            <ul class="week">
-              <li>heading home to see my dog</li>
-              <li>doing missing assignments</li>
-              <li>skipping class</li>
+            <div class="label">— this week</div>
+            <ul class="focus">
+              <li>
+                <span class="num">i.</span>
+                <span>heading home to see my dog</span>
+              </li>
+              <li>
+                <span class="num">ii.</span>
+                <span>doing missing assignments</span>
+              </li>
+              <li>
+                <span class="num">iii.</span>
+                <span>skipping class</span>
+              </li>
             </ul>
           </div>
 
           <div class="block block-note">
-            <div class="label">03 — leave me a note</div>
+            <div class="label">— leave me a note</div>
             <form class="note-form" id="noteForm">
               <div class="note-field">
                 <textarea class="note-input" id="noteInput" placeholder="say something..." rows="3"></textarea>
@@ -132,20 +141,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="page page-3" id="page3">
       <div class="gallery-header label">— gallery</div>
       <div class="photo-gallery">
-        <img src="/pictures/20251211_210120.jpg" class="gallery-photo" />
         <img src="/pictures/20260315_180427.jpg" class="gallery-photo" />
         <img src="/pictures/20260406_174410.jpg" class="gallery-photo" />
         <img src="/pictures/image4.png" class="gallery-photo" />
         <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" />
         <img src="/pictures/20260119_180623.jpg" class="gallery-photo" />
       </div>
+      <div class="gallery-end">the end</div>
     </div>
   </section>
 
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" aria-label="Close">×</button>
-    <img src="" id="lightboxImg" alt="Enlarged photo" />
-  </div>
 `
 
 // ============ Text scramble (2Advanced-style decode) ============
@@ -305,20 +310,45 @@ let hIdx = 0
 
 let isAnimating = false
 
+const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4)
+
+const smoothScroll = (el: HTMLElement, axis: 'x' | 'y', target: number, duration: number, onDone?: () => void) => {
+  const start = axis === 'x' ? el.scrollLeft : el.scrollTop
+  const distance = target - start
+  const startTime = performance.now()
+
+  const origSnap = el.style.scrollSnapType
+  el.style.scrollSnapType = 'none'
+
+  const step = (now: number) => {
+    const progress = Math.min((now - startTime) / duration, 1)
+    const value = start + distance * easeOutQuart(progress)
+    if (axis === 'x') el.scrollLeft = value
+    else el.scrollTop = value
+    if (progress < 1) {
+      requestAnimationFrame(step)
+    } else {
+      el.style.scrollSnapType = origSnap
+      isAnimating = false
+      document.body.style.pointerEvents = 'auto'
+      onDone?.()
+    }
+  }
+  requestAnimationFrame(step)
+}
+
 const snapV = (idx: number) => {
   if (idx < 0 || idx >= vSections.length || isAnimating) return
   isAnimating = true
   document.body.style.pointerEvents = 'none'
   vIdx = idx
-  vSections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' })
-  if (idx === 0) {
-    hIdx = 0
-    content.scrollTo({ left: 0, behavior: 'instant' } as any)
-  }
-  setTimeout(() => { 
-    isAnimating = false
-    document.body.style.pointerEvents = 'auto'
-  }, 850)
+  const target = vSections[idx].offsetTop
+  smoothScroll(document.documentElement, 'y', target, 700, () => {
+    if (idx === 0) {
+      hIdx = 0
+      content.scrollLeft = 0
+    }
+  })
 }
 
 const snapH = (idx: number) => {
@@ -326,11 +356,7 @@ const snapH = (idx: number) => {
   isAnimating = true
   document.body.style.pointerEvents = 'none'
   hIdx = idx
-  content.scrollTo({ left: idx * window.innerWidth, behavior: 'smooth' })
-  setTimeout(() => { 
-    isAnimating = false 
-    document.body.style.pointerEvents = 'auto'
-  }, 850)
+  smoothScroll(content, 'x', idx * window.innerWidth, 700)
 }
 
 const vObserver = new IntersectionObserver(
@@ -428,18 +454,3 @@ window.addEventListener('touchend', (e) => {
   }
 }, { passive: true })
 
-// ============ Lightbox ============
-const lightbox = document.getElementById('lightbox')!
-const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement
-
-document.querySelectorAll('.gallery-photo').forEach(photo => {
-  photo.addEventListener('click', (e) => {
-    const target = e.target as HTMLImageElement
-    lightboxImg.src = target.src
-    lightbox.classList.add('active')
-  })
-})
-
-lightbox.addEventListener('click', () => {
-  lightbox.classList.remove('active')
-})
