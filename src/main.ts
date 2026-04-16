@@ -58,7 +58,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <div class="label">i go by:</div>
           <h2 class="name">Tristan</h2>
           <p class="bio">
-            Programmer, runner, surfer, reader. Data Science @ <strong>UCSD '29</strong>,
+            Programmer, fisherman, surfer, runner. Data Science @ <strong>UCSD '29</strong>,
             leaning hard into ML and software design. I go by my middle name Tristan because
             there's too many Cesar's in the family.
           </p>
@@ -86,11 +86,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <ul class="focus">
               <li>
                 <span class="num">i.</span>
-                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a minimalist reading tracker and book discovery app.</span>
+                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a gamified note taking app for creatives.</span>
               </li>
               <li>
                 <span class="num">ii.</span>
-                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a link-sharing platform for quick and easy collaboration.</span>
+                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a discord bot that allows indexing an entire server.</span>
               </li>
             </ul>
           </div>
@@ -135,13 +135,17 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <img src="/pictures/20251211_210120.jpg" class="gallery-photo" />
         <img src="/pictures/20260315_180427.jpg" class="gallery-photo" />
         <img src="/pictures/20260406_174410.jpg" class="gallery-photo" />
-        <img src="/pictures/2539835899294480291.jpg" class="gallery-photo" />
         <img src="/pictures/image4.png" class="gallery-photo" />
         <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" />
         <img src="/pictures/20260119_180623.jpg" class="gallery-photo" />
       </div>
     </div>
   </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <img src="" id="lightboxImg" alt="Enlarged photo" />
+  </div>
 `
 
 // ============ Text scramble (2Advanced-style decode) ============
@@ -228,38 +232,45 @@ scrambleEls.forEach((el, i) => {
 })
 
 // ============ Typewriter for marquee items ============
-const typewriterItems = Array.from(document.querySelectorAll<HTMLElement>('.marquee-item'))
+const runTypewriter = () => {
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.marquee-item'))
+  console.log('[typewriter] found', items.length, 'items')
+  if (!items.length) return
 
-const typeItemChars = (el: HTMLElement, text: string, charIdx: number): Promise<void> => {
-  return new Promise((resolve) => {
-    const label = el.querySelector('.label-text')!
-    const cursor = el.querySelector('.type-cursor') as HTMLElement
-    const step = () => {
-      if (charIdx <= text.length) {
-        label.textContent = text.slice(0, charIdx)
-        cursor.classList.add('typing')
-        charIdx++
-        setTimeout(step, 28 + Math.random() * 35)
-      } else {
-        cursor.classList.remove('typing')
-        resolve()
+  let itemIdx = 0
+  let charIdx = 0
+
+  const currentLabel = () => items[itemIdx].querySelector('.label-text') as HTMLElement
+  const currentCursor = () => items[itemIdx].querySelector('.type-cursor') as HTMLElement
+
+  const tick = () => {
+    const text = marqueeItems[itemIdx].label
+    const label = currentLabel()
+    const cursor = currentCursor()
+
+    cursor.classList.add('typing')
+    label.textContent = text.slice(0, charIdx)
+    charIdx++
+
+    if (charIdx <= text.length) {
+      setTimeout(tick, 22 + Math.random() * 20)
+    } else {
+      cursor.classList.remove('typing')
+      charIdx = 0
+      itemIdx++
+      if (itemIdx < items.length) {
+        setTimeout(tick, 100)
       }
     }
-    step()
-  })
-}
-
-const runTypewriter = async () => {
-  await new Promise((r) => setTimeout(r, 900))
-  for (let i = 0; i < typewriterItems.length; i++) {
-    await typeItemChars(typewriterItems[i], marqueeItems[i].label, 0)
-    await new Promise((r) => setTimeout(r, 120))
   }
+
+  setTimeout(tick, 1200)
 }
 
 if (prefersReducedMotion) {
-  typewriterItems.forEach((el, i) => {
-    el.querySelector('.label-text')!.textContent = marqueeItems[i].label
+  document.querySelectorAll<HTMLElement>('.marquee-item').forEach((el, i) => {
+    const label = el.querySelector('.label-text') as HTMLElement
+    if (label) label.textContent = marqueeItems[i].label
   })
 } else {
   runTypewriter()
@@ -297,17 +308,29 @@ let isAnimating = false
 const snapV = (idx: number) => {
   if (idx < 0 || idx >= vSections.length || isAnimating) return
   isAnimating = true
+  document.body.style.pointerEvents = 'none'
   vIdx = idx
   vSections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' })
-  setTimeout(() => { isAnimating = false }, 850)
+  if (idx === 0) {
+    hIdx = 0
+    content.scrollTo({ left: 0, behavior: 'instant' } as any)
+  }
+  setTimeout(() => { 
+    isAnimating = false
+    document.body.style.pointerEvents = 'auto'
+  }, 850)
 }
 
 const snapH = (idx: number) => {
   if (idx < 0 || idx >= hPages.length || isAnimating) return
   isAnimating = true
+  document.body.style.pointerEvents = 'none'
   hIdx = idx
   content.scrollTo({ left: idx * window.innerWidth, behavior: 'smooth' })
-  setTimeout(() => { isAnimating = false }, 850)
+  setTimeout(() => { 
+    isAnimating = false 
+    document.body.style.pointerEvents = 'auto'
+  }, 850)
 }
 
 const vObserver = new IntersectionObserver(
@@ -315,7 +338,13 @@ const vObserver = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
         const idx = vSections.indexOf(entry.target as HTMLElement)
-        if (idx !== -1) vIdx = idx
+        if (idx !== -1) {
+          vIdx = idx
+          if (idx === 0 && hIdx !== 0) {
+            hIdx = 0
+            content.scrollTo({ left: 0 })
+          }
+        }
       }
     })
   },
@@ -323,10 +352,27 @@ const vObserver = new IntersectionObserver(
 )
 vSections.forEach((s) => vObserver.observe(s))
 
+const hObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+        const idx = hPages.indexOf(entry.target as HTMLElement)
+        if (idx !== -1) {
+          hIdx = idx
+        }
+      }
+    })
+  },
+  { threshold: [0.55], root: content }
+)
+hPages.forEach((p) => hObserver.observe(p))
+
 scrollHint.addEventListener('click', () => snapV(vIdx + 1))
 scrollRight.addEventListener('click', () => snapH(hIdx + 1))
 
 window.addEventListener('keydown', (e) => {
+  const tag = (e.target as HTMLElement).tagName
+  if (tag === 'TEXTAREA' || tag === 'INPUT') return
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
     e.preventDefault()
     if (vIdx === 0) snapV(1)
@@ -381,3 +427,19 @@ window.addEventListener('touchend', (e) => {
     else { if (hIdx > 0) snapH(0); else snapV(0) }
   }
 }, { passive: true })
+
+// ============ Lightbox ============
+const lightbox = document.getElementById('lightbox')!
+const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement
+
+document.querySelectorAll('.gallery-photo').forEach(photo => {
+  photo.addEventListener('click', (e) => {
+    const target = e.target as HTMLImageElement
+    lightboxImg.src = target.src
+    lightbox.classList.add('active')
+  })
+})
+
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('active')
+})
