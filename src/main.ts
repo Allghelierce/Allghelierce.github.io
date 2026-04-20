@@ -16,8 +16,8 @@ const marqueeItems = [
 const renderMarqueeItems = () =>
   marqueeItems
     .map(
-      (_, i) => `
-      <div class="marquee-item" data-type-idx="${i}">
+      () => `
+      <div class="marquee-item">
         <span class="label-text"></span>
         <span class="type-cursor">|</span>
       </div>
@@ -27,6 +27,23 @@ const renderMarqueeItems = () =>
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <section class="hero snap" id="hero">
+    <nav class="top-nav">
+      <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <span class="sep">/</span>
+      <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        LinkedIn
+      </a>
+      <span class="sep">/</span>
+      <a href="mailto:pvt.trisn@gmail.com">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        pvt.trisn@gmail.com
+      </a>
+    </nav>
+
     <div class="hero-inner">
       <div class="hero-text">
         <div class="hero-label">— hi, my name is</div>
@@ -35,6 +52,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <br/>
           <span class="scramble" data-final="villegas.">villegas.</span>
         </h1>
+
+        <p class="bio">
+          data science @ <strong>ucsd '29</strong>,
+          leaning hard into ml and software design.
+        </p>
       </div>
       <aside class="things-i-like">
         <div class="label">— things i like</div>
@@ -43,56 +65,45 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </div>
       </aside>
     </div>
-    <button class="hero-scroll" type="button" aria-label="Scroll to continue">
-      <span>scroll or arrows to continue</span>
-      <span class="scroll-arrow">↓</span>
-    </button>
+    <div class="hero-scroll-container">
+      <div class="portfolio-label">Portfolio</div>
+      <button class="hero-scroll" type="button" aria-label="Scroll to continue">
+        <span>(scroll or arrows to continue)</span>
+        <span class="scroll-arrow">↓</span>
+      </button>
+    </div>
   </section>
 
   <section class="content snap" id="content">
     <div class="page" id="page2">
       <div class="page-inner">
 
-      <main class="grid">
-        <section class="intro">
-          <div class="label">— but i go by</div>
-          <h2 class="name">tristan</h2>
-          <p class="bio">
-            Programmer, fisherman, surfer, runner. Data Science @ <strong>UCSD '29</strong>,
-            leaning hard into ML and software design. I go by my middle name Tristan because
-            there's too many Cesar's in the family.
-          </p>
-          <div class="stack">python · typescript · javascript · flutter</div>
-
-          <div class="page-socials-section">
-            <div class="label">— my stuff</div>
-            <div class="page-socials">
-            <a href="https://github.com/Allghelierce" target="_blank" rel="noopener" aria-label="GitHub" class="social-link github">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-link linkedin">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
-            <a href="mailto:pvt.trisn@gmail.com" aria-label="Email" class="social-link email">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </a>
-            </div>
-          </div>
-        </section>
-
-        <section class="meta">
+      <div class="grid">
+        <section class="meta" style="grid-column: 1 / -1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 7rem;">
           <div class="block">
             <div class="label">— projects</div>
             <ul class="focus">
               <li>
-                <span class="num">i</span>
-                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener" class="project-link">pulp</a> — a gamified note taking app for creatives</span>
+                <span class="num">i.</span>
+                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">pulp</a> — a gamified note taking app for creatives</span>
               </li>
               <li>
-                <span class="num">ii</span>
-                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener" class="project-link">nialink</a> — a discord bot that allows indexing an entire server</span>
+                <span class="num">ii.</span>
+                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener noreferrer" class="project-link">nialink</a> — a discord bot that allows indexing an entire server</span>
               </li>
             </ul>
+
+            <div class="block-note" style="margin-top: 3rem;">
+              <div class="label">— leave me a note</div>
+              <form class="note-form" id="noteForm">
+                <div class="note-field">
+                  <textarea class="note-input" id="noteInput" placeholder="say something..." rows="3"></textarea>
+                  <button class="note-send" type="submit" aria-label="Send">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
 
           <div class="block block-week">
@@ -112,20 +123,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
               </li>
             </ul>
           </div>
-
-          <div class="block block-note">
-            <div class="label">— leave me a note</div>
-            <form class="note-form" id="noteForm">
-              <div class="note-field">
-                <textarea class="note-input" id="noteInput" placeholder="say something..." rows="3"></textarea>
-                <button class="note-send" type="submit" aria-label="Send">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                </button>
-              </div>
-            </form>
-          </div>
         </section>
-      </main>
+      </div>
 
       <footer>
         <span>© ${year} · v1</span>
@@ -141,11 +140,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="page page-3" id="page3">
       <div class="gallery-header label">— gallery</div>
       <div class="photo-gallery">
-        <img src="/pictures/20260315_180427.jpg" class="gallery-photo" />
-        <img src="/pictures/20260406_174410.jpg" class="gallery-photo" />
-        <img src="/pictures/image4.png" class="gallery-photo" />
-        <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" />
-        <img src="/pictures/20260119_180623.jpg" class="gallery-photo" />
+        <img src="/pictures/20260315_180427.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
+        <img src="/pictures/20260406_174410.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
+        <img src="/pictures/image4.png" class="gallery-photo" alt="Photo" loading="lazy" />
+        <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
+        <img src="/pictures/20260119_180623.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
       </div>
       <div class="gallery-end">the end</div>
     </div>
@@ -154,6 +153,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `
 
 // ============ Text scramble (2Advanced-style decode) ============
+const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
 class TextScramble {
   private el: HTMLElement
   private chars = '!<>-_\\/[]{}—=+*^?#'
@@ -196,15 +197,15 @@ class TextScramble {
       let char = item.char
       if (this.frame >= end) {
         complete++
-        output += to
+        output += escapeHtml(to)
       } else if (this.frame >= start) {
         if (!char || Math.random() < 0.28) {
           char = this.chars[Math.floor(Math.random() * this.chars.length)]
           item.char = char
         }
-        output += `<span class="dud">${char}</span>`
+        output += `<span class="dud">${escapeHtml(char)}</span>`
       } else {
-        output += from
+        output += escapeHtml(from)
       }
     }
     this.el.innerHTML = output
@@ -239,7 +240,6 @@ scrambleEls.forEach((el, i) => {
 // ============ Typewriter for marquee items ============
 const runTypewriter = () => {
   const items = Array.from(document.querySelectorAll<HTMLElement>('.marquee-item'))
-  console.log('[typewriter] found', items.length, 'items')
   if (!items.length) return
 
   let itemIdx = 0
@@ -288,8 +288,7 @@ noteForm.addEventListener('submit', (e) => {
   e.preventDefault()
   const msg = noteInput.value.trim()
   if (!msg) return
-  window.location.href = `mailto:pvt.trisn@gmail.com?subject=Note from your site&body=${encodeURIComponent(msg)}`
-  noteInput.value = ''
+  window.location.href = `mailto:pvt.trisn@gmail.com?subject=${encodeURIComponent('Note from your site')}&body=${encodeURIComponent(msg)}`
 })
 
 // ============ Snap navigation ============
@@ -320,7 +319,20 @@ const smoothScroll = (el: HTMLElement, axis: 'x' | 'y', target: number, duration
   const origSnap = el.style.scrollSnapType
   el.style.scrollSnapType = 'none'
 
+  let finished = false
+  const finish = () => {
+    if (finished) return
+    finished = true
+    el.style.scrollSnapType = origSnap
+    isAnimating = false
+    document.body.style.pointerEvents = ''
+    onDone?.()
+  }
+
+  const safety = setTimeout(finish, duration + 200)
+
   const step = (now: number) => {
+    if (finished) return
     const progress = Math.min((now - startTime) / duration, 1)
     const value = start + distance * easeOutQuart(progress)
     if (axis === 'x') el.scrollLeft = value
@@ -328,10 +340,8 @@ const smoothScroll = (el: HTMLElement, axis: 'x' | 'y', target: number, duration
     if (progress < 1) {
       requestAnimationFrame(step)
     } else {
-      el.style.scrollSnapType = origSnap
-      isAnimating = false
-      document.body.style.pointerEvents = 'auto'
-      onDone?.()
+      clearTimeout(safety)
+      finish()
     }
   }
   requestAnimationFrame(step)
@@ -400,8 +410,7 @@ window.addEventListener('keydown', (e) => {
   const tag = (e.target as HTMLElement).tagName
   if (tag === 'TEXTAREA' || tag === 'INPUT') return
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    e.preventDefault()
-    if (vIdx === 0) snapV(1)
+    if (vIdx === 0) { e.preventDefault(); snapV(1) }
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
     e.preventDefault()
     if (hIdx > 0) snapH(0)
@@ -423,18 +432,25 @@ window.addEventListener(
     if (Math.abs(e.deltaY) < 6) return
     const dir = e.deltaY > 0 ? 1 : -1
     e.preventDefault()
-    wheelCooldown = true
+    let navigated = false
     if (vIdx === 0) {
-      if (dir > 0) snapV(1)
+      if (dir > 0) { snapV(1); navigated = true }
     } else {
-      if (dir > 0 && hIdx < hPages.length - 1) snapH(hIdx + 1)
-      else if (dir < 0 && hIdx > 0) snapH(hIdx - 1)
-      else if (dir < 0 && hIdx === 0) snapV(0)
+      if (dir > 0 && hIdx < hPages.length - 1) { snapH(hIdx + 1); navigated = true }
+      else if (dir < 0 && hIdx > 0) { snapH(hIdx - 1); navigated = true }
+      else if (dir < 0 && hIdx === 0) { snapV(0); navigated = true }
     }
-    setTimeout(() => { wheelCooldown = false }, 1100)
+    if (navigated) {
+      wheelCooldown = true
+      setTimeout(() => { wheelCooldown = false }, 1100)
+    }
   },
   { passive: false }
 )
+
+window.addEventListener('resize', () => {
+  if (hIdx > 0) content.scrollLeft = hIdx * window.innerWidth
+})
 
 let touchStartX = 0
 let touchStartY = 0
@@ -453,4 +469,6 @@ window.addEventListener('touchend', (e) => {
     else { if (hIdx > 0) snapH(0); else snapV(0) }
   }
 }, { passive: true })
+
+
 
