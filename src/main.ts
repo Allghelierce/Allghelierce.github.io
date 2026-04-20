@@ -9,8 +9,10 @@ const marqueeItems = [
   { label: 'going to the grocery store with my mom' },
   { label: 'walking my dog with my friend' },
   { label: 'cowboy bebop' },
-  { label: 'terraria' },
+  { label: 'terraria 🌳' },
   { label: 'chocolate milk' },
+  { label: 'surfing' },
+  { label: 'fishing' },
 ]
 
 const renderMarqueeItems = () =>
@@ -56,6 +58,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <p class="bio">
           data science @ <strong>ucsd '29</strong>,
           leaning hard into ml and software design.
+          <span class="bio-extra">- i go by tristan (middle name)</span>
         </p>
       </div>
       <aside class="things-i-like">
@@ -344,16 +347,32 @@ const smoothScroll = (el: HTMLElement, axis: 'x' | 'y', target: number, duration
       finish()
     }
   }
-  requestAnimationFrame(step)
+  step(startTime)
+}
+
+const fadeOut = (el: HTMLElement) => {
+  el.querySelectorAll<HTMLElement>(':scope > *').forEach((child) => {
+    child.classList.add('slide-leaving')
+  })
+}
+
+const clearFades = () => {
+  document.querySelectorAll('.slide-leaving').forEach((el) => {
+    el.classList.remove('slide-leaving')
+  })
 }
 
 const snapV = (idx: number) => {
   if (idx < 0 || idx >= vSections.length || isAnimating) return
   isAnimating = true
   document.body.style.pointerEvents = 'none'
+
+  fadeOut(vSections[vIdx])
   vIdx = idx
+
   const target = vSections[idx].offsetTop
-  smoothScroll(document.documentElement, 'y', target, 700, () => {
+  smoothScroll(document.documentElement, 'y', target, 400, () => {
+    clearFades()
     if (idx === 0) {
       hIdx = 0
       content.scrollLeft = 0
@@ -365,8 +384,13 @@ const snapH = (idx: number) => {
   if (idx < 0 || idx >= hPages.length || isAnimating) return
   isAnimating = true
   document.body.style.pointerEvents = 'none'
+
+  fadeOut(hPages[hIdx])
   hIdx = idx
-  smoothScroll(content, 'x', idx * window.innerWidth, 700)
+
+  smoothScroll(content, 'x', idx * window.innerWidth, 400, () => {
+    clearFades()
+  })
 }
 
 const vObserver = new IntersectionObserver(
@@ -442,7 +466,7 @@ window.addEventListener(
     }
     if (navigated) {
       wheelCooldown = true
-      setTimeout(() => { wheelCooldown = false }, 1100)
+      setTimeout(() => { wheelCooldown = false }, 450)
     }
   },
   { passive: false }
