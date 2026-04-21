@@ -294,7 +294,7 @@ noteForm.addEventListener('submit', (e) => {
   window.location.href = `mailto:pvt.trisn@gmail.com?subject=${encodeURIComponent('Note from your site')}&body=${encodeURIComponent(msg)}`
 })
 
-// ============ Snap navigation ============
+// ============ Slide navigation ============
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
 const page2 = document.getElementById('page2')!
@@ -302,130 +302,46 @@ const page3 = document.getElementById('page3')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
 const scrollRight = document.getElementById('scrollRight')!
 
-// vertical sections: 0=hero, 1=content
 const vSections: HTMLElement[] = [hero, content]
 let vIdx = 0
 
-// horizontal pages within content: 0=page2, 1=page3
 const hPages: HTMLElement[] = [page2, page3]
 let hIdx = 0
 
 let isAnimating = false
 
-const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4)
+hero.classList.add('active')
+page2.classList.add('active')
 
-const smoothScroll = (el: HTMLElement, axis: 'x' | 'y', target: number, duration: number, onDone?: () => void) => {
-  const start = axis === 'x' ? el.scrollLeft : el.scrollTop
-  const distance = target - start
-  const startTime = performance.now()
-
-  const origSnap = el.style.scrollSnapType
-  el.style.scrollSnapType = 'none'
-
-  let finished = false
-  const finish = () => {
-    if (finished) return
-    finished = true
-    el.style.scrollSnapType = origSnap
-    isAnimating = false
-    document.body.style.pointerEvents = ''
-    onDone?.()
-  }
-
-  const safety = setTimeout(finish, duration + 200)
-
-  const step = (now: number) => {
-    if (finished) return
-    const progress = Math.min((now - startTime) / duration, 1)
-    const value = start + distance * easeOutQuart(progress)
-    if (axis === 'x') el.scrollLeft = value
-    else el.scrollTop = value
-    if (progress < 1) {
-      requestAnimationFrame(step)
-    } else {
-      clearTimeout(safety)
-      finish()
-    }
-  }
-  step(startTime)
-}
-
-const fadeOut = (el: HTMLElement) => {
-  el.querySelectorAll<HTMLElement>(':scope > *').forEach((child) => {
-    child.classList.add('slide-leaving')
-  })
-}
-
-const clearFades = () => {
-  document.querySelectorAll('.slide-leaving').forEach((el) => {
-    el.classList.remove('slide-leaving')
+const applySlideClasses = (slides: HTMLElement[], activeIdx: number) => {
+  slides.forEach((slide, i) => {
+    slide.classList.remove('active', 'passed')
+    if (i < activeIdx) slide.classList.add('passed')
+    else if (i === activeIdx) slide.classList.add('active')
   })
 }
 
 const snapV = (idx: number) => {
-  if (idx < 0 || idx >= vSections.length || isAnimating) return
+  if (idx < 0 || idx >= vSections.length || idx === vIdx || isAnimating) return
   isAnimating = true
-  document.body.style.pointerEvents = 'none'
-
-  fadeOut(vSections[vIdx])
   vIdx = idx
+  applySlideClasses(vSections, vIdx)
 
-  const target = vSections[idx].offsetTop
-  smoothScroll(document.documentElement, 'y', target, 400, () => {
-    clearFades()
-    if (idx === 0) {
-      hIdx = 0
-      content.scrollLeft = 0
-    }
-  })
+  if (idx === 0) {
+    hIdx = 0
+    applySlideClasses(hPages, 0)
+  }
+
+  setTimeout(() => { isAnimating = false }, 550)
 }
 
 const snapH = (idx: number) => {
-  if (idx < 0 || idx >= hPages.length || isAnimating) return
+  if (idx < 0 || idx >= hPages.length || idx === hIdx || isAnimating) return
   isAnimating = true
-  document.body.style.pointerEvents = 'none'
-
-  fadeOut(hPages[hIdx])
   hIdx = idx
-
-  smoothScroll(content, 'x', idx * window.innerWidth, 400, () => {
-    clearFades()
-  })
+  applySlideClasses(hPages, hIdx)
+  setTimeout(() => { isAnimating = false }, 550)
 }
-
-const vObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
-        const idx = vSections.indexOf(entry.target as HTMLElement)
-        if (idx !== -1) {
-          vIdx = idx
-          if (idx === 0 && hIdx !== 0) {
-            hIdx = 0
-            content.scrollTo({ left: 0 })
-          }
-        }
-      }
-    })
-  },
-  { threshold: [0.55] }
-)
-vSections.forEach((s) => vObserver.observe(s))
-
-const hObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
-        const idx = hPages.indexOf(entry.target as HTMLElement)
-        if (idx !== -1) {
-          hIdx = idx
-        }
-      }
-    })
-  },
-  { threshold: [0.55], root: content }
-)
-hPages.forEach((p) => hObserver.observe(p))
 
 scrollHint.addEventListener('click', () => snapV(vIdx + 1))
 scrollRight.addEventListener('click', () => snapH(hIdx + 1))
@@ -466,15 +382,11 @@ window.addEventListener(
     }
     if (navigated) {
       wheelCooldown = true
-      setTimeout(() => { wheelCooldown = false }, 450)
+      setTimeout(() => { wheelCooldown = false }, 600)
     }
   },
   { passive: false }
 )
-
-window.addEventListener('resize', () => {
-  if (hIdx > 0) content.scrollLeft = hIdx * window.innerWidth
-})
 
 let touchStartX = 0
 let touchStartY = 0
