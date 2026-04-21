@@ -420,15 +420,63 @@ body::after {
 }
 
 .page2-projects > .label,
-.page2-notes > .label {
-  margin-bottom: 3.5rem;
+.page2-week > .label,
+.page2-interests > .label {
+  margin-bottom: 2rem;
 }
 
-.page2-notes {
+.page2-sidebar {
   display: flex;
   flex-direction: column;
+  gap: 3.5rem;
   min-width: 0;
   align-self: start;
+}
+
+.page2-week,
+.page2-interests {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.page2-week.visible,
+.page2-interests.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.week-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.week-item {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.week-item::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.week-item.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ============ Projects list ============ */
@@ -440,19 +488,17 @@ body::after {
 
 .project-row {
   display: grid;
-  grid-template-columns: auto 260px 1fr;
+  grid-template-columns: 310px 1fr;
   gap: 1.5rem;
   align-items: start;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.project-num {
-  font-family: var(--font-mono);
-  color: var(--accent);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  padding-top: 0.15rem;
-  font-weight: 600;
-  min-width: 1.5rem;
+.project-row.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .project-video-wrap {
@@ -534,6 +580,16 @@ body::after {
   color: var(--accent);
 }
 
+.project-achievement {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--olive);
+  letter-spacing: 0.05em;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+}
+
 .project-desc {
   font-size: 0.88rem;
   color: var(--text-muted);
@@ -550,128 +606,20 @@ body::after {
   letter-spacing: 0.1em;
 }
 
-/* ============ Sticky notes ============ */
-.sticky-board {
-  position: relative;
-  height: 420px;
-  border: 1px dashed var(--border-strong);
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
-  overflow: hidden;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 23px,
-      var(--border) 23px,
-      var(--border) 24px
-    );
-}
-
-.sticky-note {
-  position: absolute;
-  width: 105px;
-  min-height: 80px;
-  padding: 0.6rem 0.55rem;
-  border-radius: 2px;
-  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.12);
-  cursor: grab;
-  user-select: none;
-  transition: box-shadow 0.2s ease;
-}
-
-.sticky-note:hover {
-  box-shadow: 3px 5px 14px rgba(0, 0, 0, 0.2);
-}
-
-.sticky-delete {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 18px;
-  height: 18px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  color: #999;
-  font-size: 0.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  opacity: 0;
-  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
-  pointer-events: auto;
-  padding: 0;
-}
-
-.sticky-note:hover .sticky-delete {
-  opacity: 1;
-}
-
-.sticky-delete:hover {
-  color: #c0392b;
-  background: rgba(192, 57, 43, 0.1);
-}
-
-.sticky-text {
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  line-height: 1.4;
-  color: #1a1a1a;
-  word-break: break-word;
-  pointer-events: none;
-}
-
-.sticky-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.sticky-input {
-  flex: 1;
+.devpost-link {
+  display: inline-block;
+  margin-top: 1.5rem;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: var(--bg);
-  color: var(--text);
-  transition: border-color 0.25s ease;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.sticky-input::placeholder {
-  color: var(--text-dim);
-}
-
-.sticky-input:focus {
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
-}
-
-.sticky-add {
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: var(--bg);
+.devpost-link:hover {
   color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, color 0.2s ease;
-  flex-shrink: 0;
 }
-
-.sticky-add:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
 
 .label {
   font-family: var(--font-mono);
@@ -933,10 +881,6 @@ footer {
     gap: 2rem;
   }
 
-  .sticky-board {
-    height: 300px;
-  }
-
   footer {
     flex-direction: column;
     gap: 0.5rem;
@@ -966,9 +910,5 @@ footer {
     padding: 1rem;
   }
 
-  .sticky-note {
-    width: 85px;
-    min-height: 60px;
-  }
 }
 

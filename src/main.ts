@@ -4,24 +4,27 @@ const projects = [
   {
     name: 'pulp',
     desc: 'a gamified note taking app for creatives',
+    achievement: '',
     video: '/videos/pulp.mp4',
-    youtube: '',
+    youtube: 'https://youtube.com/watch?v=TODO',
     link: 'https://pulp-omega.vercel.app/',
     stack: 'next.js · typescript · prisma',
   },
   {
     name: 'nialink',
     desc: 'a discord bot that allows indexing an entire server',
+    achievement: '🏆 1st place SDx hackathon',
     video: '/videos/nialink.mp4',
-    youtube: '',
+    youtube: 'https://youtube.com/watch?v=TODO',
     link: 'https://github.com/devhyper/nialink',
     stack: 'python · discord.py',
   },
   {
-    name: 'project 3',
-    desc: 'coming soon',
+    name: 'bioscope',
+    desc: 'advanced ecosystem intelligence',
+    achievement: '🏆 1st place datahacks 2026 (i carried)',
     video: '/videos/project3.mp4',
-    youtube: '',
+    youtube: 'https://youtube.com/watch?v=TODO',
     link: '',
     stack: '',
   },
@@ -30,9 +33,8 @@ const projects = [
 const renderProjects = () =>
   projects
     .map(
-      (p, i) => `
+      (p) => `
       <div class="project-row">
-        <span class="project-num">${['i', 'ii', 'iii', 'iv', 'v', 'vi'][i]}.</span>
         <div class="project-video-wrap">
           <video class="project-video" src="${p.video}" muted loop playsinline preload="metadata"></video>
           <div class="project-video-overlay">
@@ -44,7 +46,7 @@ const renderProjects = () =>
           </a>` : ''}
         </div>
         <div class="project-info">
-          <h3 class="project-name">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer">${p.name}</a>` : p.name}</h3>
+          <h3 class="project-name">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer">${p.name}</a>` : p.name}${p.achievement ? `<span class="project-achievement">${p.achievement}</span>` : ''}</h3>
           <p class="project-desc">${p.desc}</p>
           ${p.stack ? `<span class="project-stack">${p.stack}</span>` : ''}
         </div>
@@ -136,14 +138,28 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <div class="projects-list">
               ${renderProjects()}
             </div>
+            <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
+              see more on devpost →
+            </a>
           </div>
-          <div class="page2-notes">
-            <div class="label">— leave a note</div>
-            <div class="sticky-board" id="stickyBoard"></div>
-            <form class="sticky-form" id="stickyForm">
-              <input class="sticky-input" id="stickyInput" type="text" placeholder="write something..." maxlength="120" autocomplete="off" />
-              <button class="sticky-add" type="submit">+</button>
-            </form>
+          <div class="page2-sidebar">
+            <div class="page2-week">
+              <div class="label">— this week</div>
+              <ul class="week-list">
+                <li class="week-item">recording demos</li>
+                <li class="week-item">going to the casino</li>
+                <li class="week-item">skipping class</li>
+              </ul>
+            </div>
+            <div class="page2-interests">
+              <div class="label">— things i'm interested in</div>
+              <ul class="week-list">
+                <li class="week-item">optimizing workflow for hyperproductivity</li>
+                <li class="week-item">latent space representations in ecological modeling</li>
+                <li class="week-item">multi-modal retrieval augmented generation pipelines</li>
+                <li class="week-item">low-level systems design for high-throughput data ingestion</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -282,140 +298,6 @@ if (prefersReducedMotion) {
   runTypewriter()
 }
 
-// ============ Sticky notes ============
-const STICKY_KEY = 'site-sticky-notes'
-const STICKY_COLORS = ['#fff9b1', '#ffc3a0', '#b5ead7', '#c7ceea', '#ffdac1', '#e2f0cb']
-
-interface StickyNote {
-  id: string
-  text: string
-  color: string
-  rotation: number
-  x: number
-  y: number
-}
-
-const loadNotes = (): StickyNote[] => {
-  try {
-    return JSON.parse(localStorage.getItem(STICKY_KEY) || '[]')
-  } catch { return [] }
-}
-
-const saveNotes = (notes: StickyNote[]) => {
-  localStorage.setItem(STICKY_KEY, JSON.stringify(notes))
-}
-
-const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-
-const stickyBoard = document.getElementById('stickyBoard')!
-
-const initDrag = () => {
-  stickyBoard.querySelectorAll<HTMLElement>('.sticky-note').forEach((el) => {
-    let dragging = false
-    let startX = 0
-    let startY = 0
-    let origLeft = 0
-    let origTop = 0
-
-    const onDown = (cx: number, cy: number) => {
-      dragging = true
-      el.style.zIndex = '10'
-      el.style.cursor = 'grabbing'
-      startX = cx
-      startY = cy
-      const rect = stickyBoard.getBoundingClientRect()
-      origLeft = (parseFloat(el.style.left) / 100) * rect.width
-      origTop = (parseFloat(el.style.top) / 100) * rect.height
-    }
-
-    const onMove = (cx: number, cy: number) => {
-      if (!dragging) return
-      const rect = stickyBoard.getBoundingClientRect()
-      const newLeft = Math.max(0, Math.min(rect.width - el.offsetWidth, origLeft + (cx - startX)))
-      const newTop = Math.max(0, Math.min(rect.height - el.offsetHeight, origTop + (cy - startY)))
-      el.style.left = (newLeft / rect.width * 100) + '%'
-      el.style.top = (newTop / rect.height * 100) + '%'
-    }
-
-    const onUp = () => {
-      if (!dragging) return
-      dragging = false
-      el.style.zIndex = ''
-      el.style.cursor = ''
-      const id = el.dataset.id!
-      const notes = loadNotes()
-      const note = notes.find((n) => n.id === id)
-      if (note) {
-        note.x = parseFloat(el.style.left)
-        note.y = parseFloat(el.style.top)
-        saveNotes(notes)
-      }
-    }
-
-    el.addEventListener('mousedown', (e) => { e.preventDefault(); onDown(e.clientX, e.clientY) })
-    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY))
-    window.addEventListener('mouseup', onUp)
-    el.addEventListener('touchstart', (e) => { onDown(e.touches[0].clientX, e.touches[0].clientY) }, { passive: true })
-    window.addEventListener('touchmove', (e) => { if (dragging) onMove(e.touches[0].clientX, e.touches[0].clientY) }, { passive: true })
-    window.addEventListener('touchend', onUp)
-  })
-}
-
-const renderNotes = () => {
-  const notes = loadNotes()
-  stickyBoard.innerHTML = notes.map((n) => `
-    <div class="sticky-note" data-id="${n.id}" style="background:${n.color};left:${n.x}%;top:${n.y}%;transform:rotate(${n.rotation}deg)">
-      <button class="sticky-delete" aria-label="Delete note">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-      </button>
-      <span class="sticky-text">${esc(n.text)}</span>
-    </div>
-  `).join('')
-  initDrag()
-  stickyBoard.querySelectorAll<HTMLButtonElement>('.sticky-delete').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation()
-      const noteEl = btn.closest<HTMLElement>('.sticky-note')!
-      const id = noteEl.dataset.id!
-      const notes = loadNotes().filter((n) => n.id !== id)
-      saveNotes(notes)
-      renderNotes()
-    })
-  })
-}
-
-const defaultNotes: StickyNote[] = [
-  { id: '1', text: 'cool site!', color: '#fff9b1', rotation: -2, x: 5, y: 8 },
-  { id: '2', text: 'hire this guy', color: '#b5ead7', rotation: 1.5, x: 45, y: 15 },
-  { id: '3', text: 'nice portfolio tristan', color: '#ffc3a0', rotation: -1, x: 15, y: 55 },
-]
-
-const existing = loadNotes()
-if (existing.length === 0 || existing[0].x === undefined) {
-  saveNotes(defaultNotes)
-}
-renderNotes()
-
-const stickyForm = document.getElementById('stickyForm') as HTMLFormElement
-const stickyInput = document.getElementById('stickyInput') as HTMLInputElement
-stickyForm.addEventListener('submit', (e) => {
-  e.preventDefault()
-  const text = stickyInput.value.trim()
-  if (!text) return
-  const notes = loadNotes()
-  notes.push({
-    id: Date.now().toString(),
-    text,
-    color: STICKY_COLORS[Math.floor(Math.random() * STICKY_COLORS.length)],
-    rotation: (Math.random() - 0.5) * 6,
-    x: 10 + Math.random() * 50,
-    y: 10 + Math.random() * 50,
-  })
-  saveNotes(notes)
-  renderNotes()
-  stickyInput.value = ''
-})
-
 // ============ Video hover-to-play ============
 document.querySelectorAll<HTMLElement>('.project-row').forEach((row) => {
   const video = row.querySelector('video') as HTMLVideoElement
@@ -454,11 +336,40 @@ const applySlideClasses = (slides: HTMLElement[], activeIdx: number) => {
   })
 }
 
+const animateContentIn = () => {
+  const rows = document.querySelectorAll<HTMLElement>('.project-row')
+  const weekItems = document.querySelectorAll<HTMLElement>('.page2-week .week-item')
+  const weekSection = document.querySelector<HTMLElement>('.page2-week')
+  const interestItems = document.querySelectorAll<HTMLElement>('.page2-interests .week-item')
+  const interestSection = document.querySelector<HTMLElement>('.page2-interests')
+  rows.forEach((r) => r.classList.remove('visible'))
+  weekItems.forEach((w) => w.classList.remove('visible'))
+  interestItems.forEach((w) => w.classList.remove('visible'))
+  weekSection?.classList.remove('visible')
+  interestSection?.classList.remove('visible')
+  rows.forEach((r, i) => setTimeout(() => r.classList.add('visible'), 120 * i))
+  const weekDelay = 120 * rows.length
+  weekSection && setTimeout(() => weekSection.classList.add('visible'), weekDelay)
+  weekItems.forEach((w, i) => setTimeout(() => w.classList.add('visible'), weekDelay + 100 * (i + 1)))
+  const interestDelay = weekDelay + 100 * (weekItems.length + 1) + 150
+  interestSection && setTimeout(() => interestSection.classList.add('visible'), interestDelay)
+  interestItems.forEach((w, i) => setTimeout(() => w.classList.add('visible'), interestDelay + 100 * (i + 1)))
+}
+
+const animateContentOut = () => {
+  document.querySelectorAll<HTMLElement>('.project-row').forEach((r) => r.classList.remove('visible'))
+  document.querySelectorAll<HTMLElement>('.week-item').forEach((w) => w.classList.remove('visible'))
+  document.querySelector<HTMLElement>('.page2-week')?.classList.remove('visible')
+  document.querySelector<HTMLElement>('.page2-interests')?.classList.remove('visible')
+}
+
 const snapV = (idx: number) => {
   if (idx < 0 || idx >= vSections.length || idx === vIdx || isAnimating) return
   isAnimating = true
   vIdx = idx
   applySlideClasses(vSections, vIdx)
+  if (vIdx === 1) animateContentIn()
+  else animateContentOut()
   setTimeout(() => { isAnimating = false }, 550)
 }
 
