@@ -1,6 +1,57 @@
 import './style.css'
 
-const year = new Date().getFullYear()
+const projects = [
+  {
+    name: '🍊 pulp',
+    desc: 'a gamified note taking app for creatives',
+    video: '/videos/pulp.mp4',
+    youtube: '',
+    link: 'https://pulp-omega.vercel.app/',
+    stack: 'next.js · typescript · prisma',
+  },
+  {
+    name: '⛓️ nialink',
+    desc: 'a discord bot that allows indexing an entire server',
+    video: '/videos/nialink.mp4',
+    youtube: '',
+    link: 'https://github.com/devhyper/nialink',
+    stack: 'python · discord.py',
+  },
+  {
+    name: '🌿 project 3',
+    desc: 'coming soon',
+    video: '/videos/project3.mp4',
+    youtube: '',
+    link: '',
+    stack: '',
+  },
+]
+
+const renderProjects = () =>
+  projects
+    .map(
+      (p, i) => `
+      <div class="project-row">
+        <span class="project-num">${['i', 'ii', 'iii', 'iv', 'v', 'vi'][i]}.</span>
+        <div class="project-video-wrap">
+          <video class="project-video" src="${p.video}" muted loop playsinline preload="metadata"></video>
+          <div class="project-video-overlay">
+            <span class="project-play-hint">hover to preview</span>
+          </div>
+          ${p.youtube ? `<a href="${p.youtube}" target="_blank" rel="noopener noreferrer" class="project-yt-link" aria-label="Watch full demo on YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            full demo
+          </a>` : ''}
+        </div>
+        <div class="project-info">
+          <h3 class="project-name">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer">${p.name}</a>` : p.name}</h3>
+          <p class="project-desc">${p.desc}</p>
+          ${p.stack ? `<span class="project-stack">${p.stack}</span>` : ''}
+        </div>
+      </div>
+    `
+    )
+    .join('')
 
 const marqueeItems = [
   { label: 'plants. my room is a jungle' },
@@ -56,8 +107,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </h1>
 
         <p class="bio">
-          data science @ <strong>ucsd '29</strong>,
-          leaning hard into ml and software design.
+          data science @ <strong>ucsd '29</strong>, leaning hard into ml and software development.
           <span class="bio-extra">- i go by tristan (middle name)</span>
         </p>
       </div>
@@ -80,76 +130,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <section class="content snap" id="content">
     <div class="page" id="page2">
       <div class="page-inner">
-
-      <div class="grid">
-        <section class="meta" style="grid-column: 1 / -1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 7rem;">
-          <div class="block">
-            <div class="label">— projects</div>
-            <ul class="focus">
-              <li>
-                <span class="num">i.</span>
-                <span><a href="https://pulp-omega.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link">pulp</a> — a gamified note taking app for creatives</span>
-              </li>
-              <li>
-                <span class="num">ii.</span>
-                <span><a href="https://github.com/devhyper/nialink" target="_blank" rel="noopener noreferrer" class="project-link">nialink</a> — a discord bot that allows indexing an entire server</span>
-              </li>
-            </ul>
-
-            <div class="block-note" style="margin-top: 3rem;">
-              <div class="label">— leave me a note</div>
-              <form class="note-form" id="noteForm">
-                <div class="note-field">
-                  <textarea class="note-input" id="noteInput" placeholder="say something..." rows="3"></textarea>
-                  <button class="note-send" type="submit" aria-label="Send">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  </button>
-                </div>
-              </form>
+        <div class="page2-layout">
+          <div class="page2-projects">
+            <div class="label">— my best work</div>
+            <div class="projects-list">
+              ${renderProjects()}
             </div>
           </div>
-
-          <div class="block block-week">
-            <div class="label">— this week</div>
-            <ul class="focus">
-              <li>
-                <span class="num">i.</span>
-                <span>heading home to see my dog</span>
-              </li>
-              <li>
-                <span class="num">ii.</span>
-                <span>doing missing assignments</span>
-              </li>
-              <li>
-                <span class="num">iii.</span>
-                <span>skipping class</span>
-              </li>
-            </ul>
+          <div class="page2-notes">
+            <div class="label">— leave a note</div>
+            <div class="sticky-board" id="stickyBoard"></div>
+            <form class="sticky-form" id="stickyForm">
+              <input class="sticky-input" id="stickyInput" type="text" placeholder="write something..." maxlength="120" autocomplete="off" />
+              <button class="sticky-add" type="submit">+</button>
+            </form>
           </div>
-        </section>
-      </div>
+        </div>
 
-      <footer>
-        <span>© ${year} · v1</span>
-      </footer>
       </div>
-
-      <button class="page-scroll-right" id="scrollRight" type="button" aria-label="Go to next slide">
-        <span>go this way</span>
-        <span class="scroll-arrow-right">→</span>
-      </button>
-    </div>
-
-    <div class="page page-3" id="page3">
-      <div class="gallery-header label">— gallery</div>
-      <div class="photo-gallery">
-        <img src="/pictures/20260315_180427.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
-        <img src="/pictures/20260406_174410.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
-        <img src="/pictures/image4.png" class="gallery-photo" alt="Photo" loading="lazy" />
-        <img src="/pictures/d78a3289-7b4b-4e57-b001-c7ba5eb35345.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
-        <img src="/pictures/20260119_180623.jpg" class="gallery-photo" alt="Photo" loading="lazy" />
-      </div>
-      <div class="gallery-end">the end</div>
     </div>
   </section>
 
@@ -284,29 +282,151 @@ if (prefersReducedMotion) {
   runTypewriter()
 }
 
-// ============ Note form ============
-const noteForm = document.getElementById('noteForm') as HTMLFormElement
-const noteInput = document.getElementById('noteInput') as HTMLTextAreaElement
-noteForm.addEventListener('submit', (e) => {
+// ============ Sticky notes ============
+const STICKY_KEY = 'site-sticky-notes'
+const STICKY_COLORS = ['#fff9b1', '#ffc3a0', '#b5ead7', '#c7ceea', '#ffdac1', '#e2f0cb']
+
+interface StickyNote {
+  id: string
+  text: string
+  color: string
+  rotation: number
+  x: number
+  y: number
+}
+
+const loadNotes = (): StickyNote[] => {
+  try {
+    return JSON.parse(localStorage.getItem(STICKY_KEY) || '[]')
+  } catch { return [] }
+}
+
+const saveNotes = (notes: StickyNote[]) => {
+  localStorage.setItem(STICKY_KEY, JSON.stringify(notes))
+}
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+const stickyBoard = document.getElementById('stickyBoard')!
+
+const initDrag = () => {
+  stickyBoard.querySelectorAll<HTMLElement>('.sticky-note').forEach((el) => {
+    let dragging = false
+    let startX = 0
+    let startY = 0
+    let origLeft = 0
+    let origTop = 0
+
+    const onDown = (cx: number, cy: number) => {
+      dragging = true
+      el.style.zIndex = '10'
+      el.style.cursor = 'grabbing'
+      startX = cx
+      startY = cy
+      const rect = stickyBoard.getBoundingClientRect()
+      origLeft = (parseFloat(el.style.left) / 100) * rect.width
+      origTop = (parseFloat(el.style.top) / 100) * rect.height
+    }
+
+    const onMove = (cx: number, cy: number) => {
+      if (!dragging) return
+      const rect = stickyBoard.getBoundingClientRect()
+      const newLeft = Math.max(0, Math.min(rect.width - el.offsetWidth, origLeft + (cx - startX)))
+      const newTop = Math.max(0, Math.min(rect.height - el.offsetHeight, origTop + (cy - startY)))
+      el.style.left = (newLeft / rect.width * 100) + '%'
+      el.style.top = (newTop / rect.height * 100) + '%'
+    }
+
+    const onUp = () => {
+      if (!dragging) return
+      dragging = false
+      el.style.zIndex = ''
+      el.style.cursor = ''
+      const id = el.dataset.id!
+      const notes = loadNotes()
+      const note = notes.find((n) => n.id === id)
+      if (note) {
+        note.x = parseFloat(el.style.left)
+        note.y = parseFloat(el.style.top)
+        saveNotes(notes)
+      }
+    }
+
+    el.addEventListener('mousedown', (e) => { e.preventDefault(); onDown(e.clientX, e.clientY) })
+    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY))
+    window.addEventListener('mouseup', onUp)
+    el.addEventListener('touchstart', (e) => { onDown(e.touches[0].clientX, e.touches[0].clientY) }, { passive: true })
+    window.addEventListener('touchmove', (e) => { if (dragging) onMove(e.touches[0].clientX, e.touches[0].clientY) }, { passive: true })
+    window.addEventListener('touchend', onUp)
+  })
+}
+
+const renderNotes = () => {
+  const notes = loadNotes()
+  stickyBoard.innerHTML = notes.map((n) => `
+    <div class="sticky-note" data-id="${n.id}" style="background:${n.color};left:${n.x}%;top:${n.y}%;transform:rotate(${n.rotation}deg)">
+      <span class="sticky-text">${esc(n.text)}</span>
+    </div>
+  `).join('')
+  initDrag()
+}
+
+const defaultNotes: StickyNote[] = [
+  { id: '1', text: 'cool site!', color: '#fff9b1', rotation: -2, x: 5, y: 8 },
+  { id: '2', text: 'hire this guy', color: '#b5ead7', rotation: 1.5, x: 45, y: 15 },
+  { id: '3', text: 'nice portfolio tristan', color: '#ffc3a0', rotation: -1, x: 15, y: 55 },
+]
+
+const existing = loadNotes()
+if (existing.length === 0 || existing[0].x === undefined) {
+  saveNotes(defaultNotes)
+}
+renderNotes()
+
+const stickyForm = document.getElementById('stickyForm') as HTMLFormElement
+const stickyInput = document.getElementById('stickyInput') as HTMLInputElement
+stickyForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  const msg = noteInput.value.trim()
-  if (!msg) return
-  window.location.href = `mailto:pvt.trisn@gmail.com?subject=${encodeURIComponent('Note from your site')}&body=${encodeURIComponent(msg)}`
+  const text = stickyInput.value.trim()
+  if (!text) return
+  const notes = loadNotes()
+  notes.push({
+    id: Date.now().toString(),
+    text,
+    color: STICKY_COLORS[Math.floor(Math.random() * STICKY_COLORS.length)],
+    rotation: (Math.random() - 0.5) * 6,
+    x: 10 + Math.random() * 50,
+    y: 10 + Math.random() * 50,
+  })
+  saveNotes(notes)
+  renderNotes()
+  stickyInput.value = ''
+})
+
+// ============ Video hover-to-play ============
+document.querySelectorAll<HTMLElement>('.project-row').forEach((row) => {
+  const video = row.querySelector('video') as HTMLVideoElement
+  const overlay = row.querySelector('.project-video-overlay') as HTMLElement
+  if (!video) return
+  row.addEventListener('mouseenter', () => {
+    video.play().catch(() => {})
+    if (overlay) overlay.style.opacity = '0'
+  })
+  row.addEventListener('mouseleave', () => {
+    video.pause()
+    video.currentTime = 0
+    if (overlay) overlay.style.opacity = '1'
+  })
 })
 
 // ============ Slide navigation ============
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
 const page2 = document.getElementById('page2')!
-const page3 = document.getElementById('page3')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
-const scrollRight = document.getElementById('scrollRight')!
 
 const vSections: HTMLElement[] = [hero, content]
 let vIdx = 0
-
-const hPages: HTMLElement[] = [page2, page3]
-let hIdx = 0
 
 let isAnimating = false
 
@@ -326,25 +446,10 @@ const snapV = (idx: number) => {
   isAnimating = true
   vIdx = idx
   applySlideClasses(vSections, vIdx)
-
-  if (idx === 0) {
-    hIdx = 0
-    applySlideClasses(hPages, 0)
-  }
-
-  setTimeout(() => { isAnimating = false }, 550)
-}
-
-const snapH = (idx: number) => {
-  if (idx < 0 || idx >= hPages.length || idx === hIdx || isAnimating) return
-  isAnimating = true
-  hIdx = idx
-  applySlideClasses(hPages, hIdx)
   setTimeout(() => { isAnimating = false }, 550)
 }
 
 scrollHint.addEventListener('click', () => snapV(vIdx + 1))
-scrollRight.addEventListener('click', () => snapH(hIdx + 1))
 
 window.addEventListener('keydown', (e) => {
   const tag = (e.target as HTMLElement).tagName
@@ -353,12 +458,7 @@ window.addEventListener('keydown', (e) => {
     if (vIdx === 0) { e.preventDefault(); snapV(1) }
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
     e.preventDefault()
-    if (hIdx > 0) snapH(0)
-    else snapV(vIdx - 1)
-  } else if (e.key === 'ArrowRight') {
-    if (vIdx === 1) { e.preventDefault(); snapH(hIdx + 1) }
-  } else if (e.key === 'ArrowLeft') {
-    if (vIdx === 1) { e.preventDefault(); snapH(hIdx - 1) }
+    snapV(vIdx - 1)
   } else if (e.key === 'Home') {
     e.preventDefault(); snapV(0)
   }
@@ -373,13 +473,8 @@ window.addEventListener(
     const dir = e.deltaY > 0 ? 1 : -1
     e.preventDefault()
     let navigated = false
-    if (vIdx === 0) {
-      if (dir > 0) { snapV(1); navigated = true }
-    } else {
-      if (dir > 0 && hIdx < hPages.length - 1) { snapH(hIdx + 1); navigated = true }
-      else if (dir < 0 && hIdx > 0) { snapH(hIdx - 1); navigated = true }
-      else if (dir < 0 && hIdx === 0) { snapV(0); navigated = true }
-    }
+    if (vIdx === 0 && dir > 0) { snapV(1); navigated = true }
+    else if (vIdx === 1 && dir < 0) { snapV(0); navigated = true }
     if (navigated) {
       wheelCooldown = true
       setTimeout(() => { wheelCooldown = false }, 600)
@@ -388,21 +483,16 @@ window.addEventListener(
   { passive: false }
 )
 
-let touchStartX = 0
 let touchStartY = 0
 window.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX
   touchStartY = e.touches[0].clientY
 }, { passive: true })
 window.addEventListener('touchend', (e) => {
   if (isAnimating) return
-  const dx = touchStartX - e.changedTouches[0].clientX
   const dy = touchStartY - e.changedTouches[0].clientY
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-    if (vIdx === 1) snapH(hIdx + (dx > 0 ? 1 : -1))
-  } else if (Math.abs(dy) > 40) {
-    if (dy > 0) { if (vIdx === 0) snapV(1) }
-    else { if (hIdx > 0) snapH(0); else snapV(0) }
+  if (Math.abs(dy) > 40) {
+    if (dy > 0 && vIdx === 0) snapV(1)
+    else if (dy < 0 && vIdx === 1) snapV(0)
   }
 }, { passive: true })
 
