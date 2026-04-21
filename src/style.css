@@ -287,7 +287,10 @@ body::after {
   text-transform: uppercase;
   margin-bottom: -0.5rem;
   opacity: 0;
-  animation: popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.1s forwards;
+}
+
+.portfolio-label.show {
+  animation: popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .hero-subtext {
@@ -325,9 +328,12 @@ body::after {
   letter-spacing: 0.22em;
   text-transform: lowercase;
   opacity: 0;
-  animation: popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s forwards;
   transition: color 0.3s ease;
   cursor: pointer;
+}
+
+.hero-scroll.show {
+  animation: popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
 }
 
 .hero-scroll:hover {
@@ -601,8 +607,8 @@ body::after {
 
 .project-stack {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-dim);
+  font-size: 0.7rem;
+  color: var(--text-muted);
   letter-spacing: 0.1em;
 }
 

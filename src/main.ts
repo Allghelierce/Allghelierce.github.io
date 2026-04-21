@@ -8,7 +8,7 @@ const projects = [
     video: '/videos/pulp.mp4',
     youtube: 'https://youtube.com/watch?v=TODO',
     link: 'https://pulp-omega.vercel.app/',
-    stack: 'next.js · typescript · prisma',
+    stack: '100% typescript',
   },
   {
     name: 'nialink',
@@ -17,7 +17,7 @@ const projects = [
     video: '/videos/nialink.mp4',
     youtube: 'https://youtube.com/watch?v=TODO',
     link: 'https://github.com/devhyper/nialink',
-    stack: 'python · discord.py',
+    stack: '100% javascript',
   },
   {
     name: 'bioscope',
@@ -26,7 +26,7 @@ const projects = [
     video: '/videos/project3.mp4',
     youtube: 'https://youtube.com/watch?v=TODO',
     link: '',
-    stack: '',
+    stack: 'typescript · python',
   },
 ]
 
@@ -71,10 +71,9 @@ const marqueeItems = [
 const renderMarqueeItems = () =>
   marqueeItems
     .map(
-      () => `
+      (item) => `
       <div class="marquee-item">
-        <span class="label-text"></span>
-        <span class="type-cursor">|</span>
+        <span class="label-text">${item.label}</span>
       </div>
     `
     )
@@ -147,6 +146,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
               <div class="label">— this week</div>
               <ul class="week-list">
                 <li class="week-item">recording demos</li>
+                <li class="week-item">maybe launching pulp</li>
                 <li class="week-item">going to the casino</li>
                 <li class="week-item">skipping class</li>
               </ul>
@@ -155,9 +155,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
               <div class="label">— things i'm interested in</div>
               <ul class="week-list">
                 <li class="week-item">optimizing workflow for hyperproductivity</li>
-                <li class="week-item">latent space representations in ecological modeling</li>
-                <li class="week-item">multi-modal retrieval augmented generation pipelines</li>
-                <li class="week-item">low-level systems design for high-throughput data ingestion</li>
+                <li class="week-item">robust representation learning on noisy, unstructured data</li>
+                <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
+                <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
               </ul>
             </div>
           </div>
@@ -235,68 +235,27 @@ class TextScramble {
   }
 }
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
 const scrambleEls = document.querySelectorAll<HTMLElement>('.scramble')
+const scramblePromises: Promise<void>[] = []
 scrambleEls.forEach((el, i) => {
   const final = el.dataset.final || el.textContent || ''
-  if (prefersReducedMotion) {
-    el.textContent = final
-    return
-  }
-  // placeholder keeps layout stable during fade-in
   el.innerHTML = Array.from(final)
     .map((c) => (c === ' ' ? ' ' : `<span class="dud">_</span>`))
     .join('')
   const fx = new TextScramble(el)
-  window.setTimeout(() => {
-    fx.setText(final)
-  }, 400 + i * 320)
+  scramblePromises.push(
+    new Promise((resolve) => {
+      window.setTimeout(() => {
+        fx.setText(final).then(resolve)
+      }, 400 + i * 320)
+    })
+  )
 })
 
-// ============ Typewriter for marquee items ============
-const runTypewriter = () => {
-  const items = Array.from(document.querySelectorAll<HTMLElement>('.marquee-item'))
-  if (!items.length) return
-
-  let itemIdx = 0
-  let charIdx = 0
-
-  const currentLabel = () => items[itemIdx].querySelector('.label-text') as HTMLElement
-  const currentCursor = () => items[itemIdx].querySelector('.type-cursor') as HTMLElement
-
-  const tick = () => {
-    const text = marqueeItems[itemIdx].label
-    const label = currentLabel()
-    const cursor = currentCursor()
-
-    cursor.classList.add('typing')
-    label.textContent = text.slice(0, charIdx)
-    charIdx++
-
-    if (charIdx <= text.length) {
-      setTimeout(tick, 22 + Math.random() * 20)
-    } else {
-      cursor.classList.remove('typing')
-      charIdx = 0
-      itemIdx++
-      if (itemIdx < items.length) {
-        setTimeout(tick, 100)
-      }
-    }
-  }
-
-  setTimeout(tick, 1200)
-}
-
-if (prefersReducedMotion) {
-  document.querySelectorAll<HTMLElement>('.marquee-item').forEach((el, i) => {
-    const label = el.querySelector('.label-text') as HTMLElement
-    if (label) label.textContent = marqueeItems[i].label
-  })
-} else {
-  runTypewriter()
-}
+Promise.all(scramblePromises).then(() => {
+  document.querySelector('.portfolio-label')?.classList.add('show')
+  document.querySelector('.hero-scroll')?.classList.add('show')
+})
 
 // ============ Video hover-to-play ============
 document.querySelectorAll<HTMLElement>('.project-row').forEach((row) => {
