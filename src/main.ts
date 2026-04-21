@@ -2,7 +2,7 @@ import './style.css'
 
 const projects = [
   {
-    name: '🍊 pulp',
+    name: 'pulp',
     desc: 'a gamified note taking app for creatives',
     video: '/videos/pulp.mp4',
     youtube: '',
@@ -10,7 +10,7 @@ const projects = [
     stack: 'next.js · typescript · prisma',
   },
   {
-    name: '⛓️ nialink',
+    name: 'nialink',
     desc: 'a discord bot that allows indexing an entire server',
     video: '/videos/nialink.mp4',
     youtube: '',
@@ -18,7 +18,7 @@ const projects = [
     stack: 'python · discord.py',
   },
   {
-    name: '🌿 project 3',
+    name: 'project 3',
     desc: 'coming soon',
     video: '/videos/project3.mp4',
     youtube: '',
@@ -365,10 +365,23 @@ const renderNotes = () => {
   const notes = loadNotes()
   stickyBoard.innerHTML = notes.map((n) => `
     <div class="sticky-note" data-id="${n.id}" style="background:${n.color};left:${n.x}%;top:${n.y}%;transform:rotate(${n.rotation}deg)">
+      <button class="sticky-delete" aria-label="Delete note">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </button>
       <span class="sticky-text">${esc(n.text)}</span>
     </div>
   `).join('')
   initDrag()
+  stickyBoard.querySelectorAll<HTMLButtonElement>('.sticky-delete').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation()
+      const noteEl = btn.closest<HTMLElement>('.sticky-note')!
+      const id = noteEl.dataset.id!
+      const notes = loadNotes().filter((n) => n.id !== id)
+      saveNotes(notes)
+      renderNotes()
+    })
+  })
 }
 
 const defaultNotes: StickyNote[] = [
