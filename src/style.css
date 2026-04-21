@@ -7,7 +7,7 @@
   --accent-soft: #4a1f23;
   --accent-dim: rgba(41, 15, 18, 0.08);
   --blue: #3a5c8e;
-  --olive: #708238;
+  --olive: #3c3f14;
   --border: rgba(15, 15, 16, 0.1);
   --border-strong: rgba(15, 15, 16, 0.2);
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -171,8 +171,8 @@ body::after {
 }
 
 .dud {
-  color: var(--accent);
-  opacity: 0.7;
+  color: var(--olive);
+  opacity: 0.85;
   font-weight: 700;
 }
 
@@ -601,7 +601,7 @@ body::after {
   color: var(--text-muted);
   line-height: 1.6;
   text-transform: lowercase;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.85rem;
   max-width: 380px;
 }
 
@@ -610,6 +610,16 @@ body::after {
   font-size: 0.7rem;
   color: var(--text-muted);
   letter-spacing: 0.1em;
+  display: block;
+}
+
+.project-tools {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-top: 0.2rem;
 }
 
 .devpost-link {
@@ -746,22 +756,20 @@ body::after {
 }
 
 
-.top-nav {
-  position: absolute;
-  top: 2.5rem;
-  right: 3rem;
-  display: flex;
+.socials-row {
+  display: inline-flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.05em;
-  z-index: 10;
-  opacity: 0;
-  animation: fadeIn 1s ease 0.5s forwards;
+  margin-top: 1.25rem;
+  background: rgba(60, 63, 20, 0.08);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
 }
 
-.top-nav a {
+.socials-row a {
   color: var(--text-muted);
   text-decoration: none;
   display: flex;
@@ -770,15 +778,15 @@ body::after {
   transition: color 0.3s ease;
 }
 
-.top-nav a:hover {
-  color: var(--text);
+.socials-row a:hover {
+  color: var(--olive);
 }
 
-.top-nav .sep {
+.socials-row .sep {
   color: var(--text-dim);
 }
 
-.top-nav svg {
+.socials-row svg {
   opacity: 0.7;
 }
 
