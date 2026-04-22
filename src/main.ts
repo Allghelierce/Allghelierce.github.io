@@ -198,8 +198,8 @@ class TextScramble {
     for (let i = 0; i < length; i++) {
       const from = oldText[i] || ''
       const to = newText[i] || ''
-      const start = Math.floor(Math.random() * 40)
-      const end = start + Math.floor(Math.random() * 40)
+      const start = Math.floor(Math.random() * 10)
+      const end = start + Math.floor(Math.random() * 30)
       this.queue.push({ from, to, start, end })
     }
     cancelAnimationFrame(this.frameRequest)
@@ -238,26 +238,29 @@ class TextScramble {
   }
 }
 
+const scrambleChars = '!<>-\\/[]{}—=+*^?#'
 const scrambleEls = document.querySelectorAll<HTMLElement>('.scramble')
 const scramblePromises: Promise<void>[] = []
 scrambleEls.forEach((el, i) => {
   const final = el.dataset.final || el.textContent || ''
   el.innerHTML = Array.from(final)
-    .map((c) => (c === ' ' ? ' ' : `<span class="dud">_</span>`))
+    .map((c) => (c === ' ' ? ' ' : `<span class="dud">${scrambleChars[Math.floor(Math.random() * scrambleChars.length)]}</span>`))
     .join('')
   const fx = new TextScramble(el)
   scramblePromises.push(
     new Promise((resolve) => {
       window.setTimeout(() => {
         fx.setText(final).then(resolve)
-      }, 400 + i * 320)
+      }, i * 180)
     })
   )
 })
 
 Promise.all(scramblePromises).then(() => {
-  document.querySelector('.portfolio-label')?.classList.add('show')
-  document.querySelector('.hero-scroll')?.classList.add('show')
+  setTimeout(() => {
+    document.querySelector('.portfolio-label')?.classList.add('show')
+    document.querySelector('.hero-scroll')?.classList.add('show')
+  }, 1200)
 })
 
 // ============ Video hover-to-play ============
