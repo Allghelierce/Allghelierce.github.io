@@ -94,7 +94,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">GITHUB ↗</a>
       <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer" class="sidebar-ext">LINKEDIN ↗</a>
       <a href="https://x.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">TWITTER ↗</a>
-      <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="sidebar-ext">DEVPOST ↗</a>
     </div>
   </nav>
 
@@ -137,10 +136,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <div class="label">— my best work</div>
           <div class="projects-list">
             ${renderProjects()}
-            <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
-              see more on devpost →
-            </a>
           </div>
+          <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
+            see more on devpost →
+          </a>
         </div>
         <div class="page-scroll-container page-scroll-right">
           <div class="page-next-label">About Me</div>
@@ -405,9 +404,13 @@ window.addEventListener('keydown', (e) => {
   const tag = (e.target as HTMLElement).tagName
   if (tag === 'TEXTAREA' || tag === 'INPUT') return
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    e.preventDefault(); snapV(vIdx + 1)
+    e.preventDefault()
+    if (vIdx === 1 && hIdx === 1) snapV(2)
+    else if (vIdx === 0) snapV(1)
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    e.preventDefault(); snapV(vIdx - 1)
+    e.preventDefault()
+    if (vIdx === 2) snapV(1)
+    else if (vIdx === 1) snapV(0)
   } else if (e.key === 'ArrowRight') {
     if (vIdx === 1) { e.preventDefault(); snapH(hIdx + 1) }
   } else if (e.key === 'ArrowLeft') {
@@ -431,8 +434,13 @@ window.addEventListener(
       else if (dir < 0 && hIdx > 0) { snapH(hIdx - 1); navigated = true }
     } else {
       const dir = e.deltaY > 0 ? 1 : -1
-      if (dir > 0 && vIdx < vSections.length - 1) { snapV(vIdx + 1); navigated = true }
-      else if (dir < 0 && vIdx > 0) { snapV(vIdx - 1); navigated = true }
+      if (dir > 0) {
+        if (vIdx === 0) { snapV(1); navigated = true }
+        else if (vIdx === 1 && hIdx === 1) { snapV(2); navigated = true }
+      } else if (dir < 0) {
+        if (vIdx === 2) { snapV(1); navigated = true }
+        else if (vIdx === 1) { snapV(0); navigated = true }
+      }
     }
     if (navigated) {
       wheelCooldown = true
@@ -456,8 +464,13 @@ window.addEventListener('touchend', (e) => {
     if (dx > 0) snapH(hIdx + 1)
     else snapH(hIdx - 1)
   } else if (Math.abs(dy) > 40) {
-    if (dy > 0) snapV(vIdx + 1)
-    else snapV(vIdx - 1)
+    if (dy > 0) {
+      if (vIdx === 0) snapV(1)
+      else if (vIdx === 1 && hIdx === 1) snapV(2)
+    } else {
+      if (vIdx === 2) snapV(1)
+      else if (vIdx === 1) snapV(0)
+    }
   }
 }, { passive: true })
 
