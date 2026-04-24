@@ -29,7 +29,7 @@ const projects = [
     youtube: 'https://youtube.com/watch?v=TODO',
     link: '',
     stack: 'typescript · python',
-    tools: 'next.js · react · d3 · leaflet · framer motion · snowflake',
+    tools: 'next.js · react · d3 · framer motion · snowflake',
   },
 ]
 
@@ -88,11 +88,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <a href="#" class="sidebar-link" data-nav="projects">PROJECTS</a>
       <a href="#" class="sidebar-link" data-nav="week">THIS WEEK</a>
       <a href="#" class="sidebar-link" data-nav="interests">INTERESTS</a>
+      <a href="#" class="sidebar-link" data-nav="posts">POSTS</a>
     </div>
     <div class="sidebar-bottom">
       <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">GITHUB ↗</a>
       <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer" class="sidebar-ext">LINKEDIN ↗</a>
-      <a href="mailto:pvt.trisn@gmail.com" class="sidebar-ext">EMAIL ↗</a>
+      <a href="https://x.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">TWITTER ↗</a>
       <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="sidebar-ext">DEVPOST ↗</a>
     </div>
   </nav>
@@ -112,13 +113,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             data science @ <strong>ucsd '29</strong>, leaning hard into ml and software development.
             <span class="bio-extra">- i go by tristan (middle name)</span>
           </p>
-          <nav class="socials-row mobile-only">
-            <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span class="sep">/</span>
-            <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <span class="sep">/</span>
-            <a href="mailto:pvt.trisn@gmail.com">Email</a>
-          </nav>
+          <button class="copy-email" type="button" data-email="pvt.trisn@gmail.com">click here to copy my email</button>
         </div>
         <aside class="things-i-like">
           <div class="label">— things i like</div>
@@ -139,39 +134,51 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="content snap" id="content">
       <div class="page" id="page2">
         <div class="page-inner">
-          <div class="page2-layout">
-            <div class="page2-projects">
-              <div class="label">— my best work</div>
-              <div class="projects-list">
-                ${renderProjects()}
-              </div>
-              <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
-                see more on devpost →
-              </a>
+          <div class="label">— my best work</div>
+          <div class="projects-list">
+            ${renderProjects()}
+            <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
+              see more on devpost →
+            </a>
+          </div>
+        </div>
+        <div class="page-scroll-container page-scroll-right">
+          <div class="page-next-label">About Me</div>
+          <button class="page-scroll" type="button" aria-label="Scroll to about me">
+            <span class="scroll-arrow">→</span>
+          </button>
+        </div>
+      </div>
+      <div class="page" id="page3">
+        <div class="page-inner">
+          <div class="page3-layout">
+            <div class="page3-week">
+              <div class="label">— this week</div>
+              <ul class="week-list">
+                <li class="week-item">recording demos</li>
+                <li class="week-item">maybe launching pulp</li>
+                <li class="week-item">going to the casino</li>
+                <li class="week-item">skipping class</li>
+              </ul>
             </div>
-            <div class="page2-sidebar">
-              <div class="page2-week">
-                <div class="label">— this week</div>
-                <ul class="week-list">
-                  <li class="week-item">recording demos</li>
-                  <li class="week-item">maybe launching pulp</li>
-                  <li class="week-item">going to the casino</li>
-                  <li class="week-item">skipping class</li>
-                </ul>
-              </div>
-              <div class="page2-interests">
-                <div class="label">— things i'm interested in</div>
-                <ul class="week-list">
-                  <li class="week-item">optimizing workflow for hyperproductivity</li>
-                  <li class="week-item">robust representation learning on noisy, unstructured data</li>
-                  <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
-                  <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
-                </ul>
-              </div>
+            <div class="page3-interests">
+              <div class="label">— things i'm interested in</div>
+              <ul class="week-list">
+                <li class="week-item">optimizing workflow for hyperproductivity</li>
+                <li class="week-item">robust representation learning on noisy, unstructured data</li>
+                <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
+                <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
+              </ul>
             </div>
           </div>
-
         </div>
+      </div>
+    </section>
+
+    <section class="posts-section snap" id="posts">
+      <div class="page-inner">
+        <div class="label">— posts</div>
+        <p class="posts-placeholder">coming soon.</p>
       </div>
     </section>
   </div>
@@ -288,10 +295,14 @@ document.querySelectorAll<HTMLElement>('.project-row').forEach((row) => {
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
 const page2 = document.getElementById('page2')!
+const page3 = document.getElementById('page3')!
+const posts = document.getElementById('posts')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
 
-const vSections: HTMLElement[] = [hero, content]
+const vSections: HTMLElement[] = [hero, content, posts]
+const hPages: HTMLElement[] = [page2, page3]
 let vIdx = 0
+let hIdx = 0
 
 let isAnimating = false
 
@@ -306,37 +317,70 @@ const applySlideClasses = (slides: HTMLElement[], activeIdx: number) => {
   })
 }
 
-const animateContentIn = () => {
+const animateProjectsIn = () => {
   const rows = document.querySelectorAll<HTMLElement>('.project-row')
-  const weekItems = document.querySelectorAll<HTMLElement>('.page2-week .week-item')
-  const weekSection = document.querySelector<HTMLElement>('.page2-week')
-  const interestItems = document.querySelectorAll<HTMLElement>('.page2-interests .week-item')
-  const interestSection = document.querySelector<HTMLElement>('.page2-interests')
+  const aboutLabel = document.querySelector('.page-next-label')
+  const aboutScroll = document.querySelector('.page-scroll')
   rows.forEach((r) => r.classList.remove('visible'))
+  aboutLabel?.classList.remove('show')
+  aboutScroll?.classList.remove('show')
+  rows.forEach((r, i) => setTimeout(() => r.classList.add('visible'), 120 * i))
+  const delay = 120 * rows.length + 800
+  setTimeout(() => aboutLabel?.classList.add('show'), delay)
+  setTimeout(() => aboutScroll?.classList.add('show'), delay + 150)
+}
+
+const animateProjectsOut = () => {
+  document.querySelectorAll<HTMLElement>('.project-row').forEach((r) => r.classList.remove('visible'))
+  document.querySelector('.page-next-label')?.classList.remove('show')
+  document.querySelector('.page-scroll')?.classList.remove('show')
+}
+
+const animatePage3In = () => {
+  const weekSection = document.querySelector<HTMLElement>('.page3-week')
+  const weekItems = document.querySelectorAll<HTMLElement>('.page3-week .week-item')
+  const interestSection = document.querySelector<HTMLElement>('.page3-interests')
+  const interestItems = document.querySelectorAll<HTMLElement>('.page3-interests .week-item')
   weekItems.forEach((w) => w.classList.remove('visible'))
   interestItems.forEach((w) => w.classList.remove('visible'))
   weekSection?.classList.remove('visible')
   interestSection?.classList.remove('visible')
-  rows.forEach((r, i) => setTimeout(() => r.classList.add('visible'), 120 * i))
-  const weekDelay = 120 * rows.length
-  weekSection && setTimeout(() => weekSection.classList.add('visible'), weekDelay)
-  weekItems.forEach((w, i) => setTimeout(() => w.classList.add('visible'), weekDelay + 100 * (i + 1)))
-  const interestDelay = weekDelay + 100 * (weekItems.length + 1) + 150
+  weekSection && setTimeout(() => weekSection.classList.add('visible'), 100)
+  weekItems.forEach((w, i) => setTimeout(() => w.classList.add('visible'), 200 + 100 * i))
+  const interestDelay = 200 + 100 * (weekItems.length) + 150
   interestSection && setTimeout(() => interestSection.classList.add('visible'), interestDelay)
   interestItems.forEach((w, i) => setTimeout(() => w.classList.add('visible'), interestDelay + 100 * (i + 1)))
 }
 
-const animateContentOut = () => {
-  document.querySelectorAll<HTMLElement>('.project-row').forEach((r) => r.classList.remove('visible'))
-  document.querySelectorAll<HTMLElement>('.week-item').forEach((w) => w.classList.remove('visible'))
-  document.querySelector<HTMLElement>('.page2-week')?.classList.remove('visible')
-  document.querySelector<HTMLElement>('.page2-interests')?.classList.remove('visible')
+const animatePage3Out = () => {
+  document.querySelectorAll<HTMLElement>('.page3-week .week-item, .page3-interests .week-item').forEach((w) => w.classList.remove('visible'))
+  document.querySelector<HTMLElement>('.page3-week')?.classList.remove('visible')
+  document.querySelector<HTMLElement>('.page3-interests')?.classList.remove('visible')
 }
 
-const updateSidebarActive = (idx: number) => {
+const updateSidebarActive = () => {
   document.querySelectorAll<HTMLAnchorElement>('.sidebar-link[data-nav]').forEach((link) => {
-    link.classList.toggle('active', (idx === 0 && link.dataset.nav === 'home') || (idx === 1 && link.dataset.nav !== 'home'))
+    const nav = link.dataset.nav
+    const isActive =
+      (vIdx === 0 && nav === 'home') ||
+      (vIdx === 1 && hIdx === 0 && nav === 'projects') ||
+      (vIdx === 1 && hIdx === 1 && (nav === 'week' || nav === 'interests')) ||
+      (vIdx === 2 && nav === 'posts')
+    link.classList.toggle('active', isActive)
   })
+}
+
+const snapH = (idx: number) => {
+  if (idx < 0 || idx >= hPages.length || idx === hIdx || isAnimating) return
+  isAnimating = true
+  if (hIdx === 0) animateProjectsOut()
+  else animatePage3Out()
+  hIdx = idx
+  applySlideClasses(hPages, hIdx)
+  if (hIdx === 0) animateProjectsIn()
+  else animatePage3In()
+  updateSidebarActive()
+  setTimeout(() => { isAnimating = false }, 550)
 }
 
 const snapV = (idx: number) => {
@@ -344,9 +388,14 @@ const snapV = (idx: number) => {
   isAnimating = true
   vIdx = idx
   applySlideClasses(vSections, vIdx)
-  updateSidebarActive(vIdx)
-  if (vIdx === 1) animateContentIn()
-  else animateContentOut()
+  updateSidebarActive()
+  if (vIdx === 1) {
+    if (hIdx === 0) animateProjectsIn()
+    else animatePage3In()
+  } else {
+    animateProjectsOut()
+    animatePage3Out()
+  }
   setTimeout(() => { isAnimating = false }, 550)
 }
 
@@ -356,10 +405,13 @@ window.addEventListener('keydown', (e) => {
   const tag = (e.target as HTMLElement).tagName
   if (tag === 'TEXTAREA' || tag === 'INPUT') return
   if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    if (vIdx === 0) { e.preventDefault(); snapV(1) }
+    e.preventDefault(); snapV(vIdx + 1)
   } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    e.preventDefault()
-    snapV(vIdx - 1)
+    e.preventDefault(); snapV(vIdx - 1)
+  } else if (e.key === 'ArrowRight') {
+    if (vIdx === 1) { e.preventDefault(); snapH(hIdx + 1) }
+  } else if (e.key === 'ArrowLeft') {
+    if (vIdx === 1) { e.preventDefault(); snapH(hIdx - 1) }
   } else if (e.key === 'Home') {
     e.preventDefault(); snapV(0)
   }
@@ -370,12 +422,18 @@ window.addEventListener(
   'wheel',
   (e) => {
     if (isAnimating || wheelCooldown) { e.preventDefault(); return }
-    if (Math.abs(e.deltaY) < 6) return
-    const dir = e.deltaY > 0 ? 1 : -1
+    if (Math.abs(e.deltaY) < 6 && Math.abs(e.deltaX) < 6) return
     e.preventDefault()
     let navigated = false
-    if (vIdx === 0 && dir > 0) { snapV(1); navigated = true }
-    else if (vIdx === 1 && dir < 0) { snapV(0); navigated = true }
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && vIdx === 1) {
+      const dir = e.deltaX > 0 ? 1 : -1
+      if (dir > 0 && hIdx < hPages.length - 1) { snapH(hIdx + 1); navigated = true }
+      else if (dir < 0 && hIdx > 0) { snapH(hIdx - 1); navigated = true }
+    } else {
+      const dir = e.deltaY > 0 ? 1 : -1
+      if (dir > 0 && vIdx < vSections.length - 1) { snapV(vIdx + 1); navigated = true }
+      else if (dir < 0 && vIdx > 0) { snapV(vIdx - 1); navigated = true }
+    }
     if (navigated) {
       wheelCooldown = true
       setTimeout(() => { wheelCooldown = false }, 600)
@@ -384,16 +442,22 @@ window.addEventListener(
   { passive: false }
 )
 
+let touchStartX = 0
 let touchStartY = 0
 window.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX
   touchStartY = e.touches[0].clientY
 }, { passive: true })
 window.addEventListener('touchend', (e) => {
   if (isAnimating) return
+  const dx = touchStartX - e.changedTouches[0].clientX
   const dy = touchStartY - e.changedTouches[0].clientY
-  if (Math.abs(dy) > 40) {
-    if (dy > 0 && vIdx === 0) snapV(1)
-    else if (dy < 0 && vIdx === 1) snapV(0)
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40 && vIdx === 1) {
+    if (dx > 0) snapH(hIdx + 1)
+    else snapH(hIdx - 1)
+  } else if (Math.abs(dy) > 40) {
+    if (dy > 0) snapV(vIdx + 1)
+    else snapV(vIdx - 1)
   }
 }, { passive: true })
 
@@ -401,8 +465,31 @@ window.addEventListener('touchend', (e) => {
 document.querySelectorAll<HTMLAnchorElement>('.sidebar-link[data-nav]').forEach((link) => {
   link.addEventListener('click', (e) => {
     e.preventDefault()
-    snapV(link.dataset.nav === 'home' ? 0 : 1)
+    const nav = link.dataset.nav
+    if (nav === 'home') {
+      snapV(0)
+    } else if (nav === 'projects') {
+      if (vIdx === 0) snapV(1)
+      else snapH(0)
+    } else if (nav === 'posts') {
+      snapV(2)
+    } else {
+      if (vIdx === 0) { snapV(1); setTimeout(() => snapH(1), 600) }
+      else snapH(1)
+    }
   })
 })
 
+// ============ Page 2 scroll to about me ============
+document.querySelector('.page-scroll')?.addEventListener('click', () => snapH(1))
+
+// ============ Copy email ============
+const copyBtn = document.querySelector<HTMLButtonElement>('.copy-email')
+copyBtn?.addEventListener('click', () => {
+  const email = copyBtn.dataset.email || ''
+  navigator.clipboard.writeText(email).then(() => {
+    copyBtn.textContent = 'copied!'
+    setTimeout(() => { copyBtn.textContent = 'click here to copy my email' }, 2000)
+  })
+})
 
