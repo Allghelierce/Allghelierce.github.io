@@ -60,16 +60,14 @@ const renderProjects = () =>
     .join('')
 
 const marqueeItems = [
-  { label: 'plants. my room is a jungle 🌲🪴🎍🪴' },
-  { label: 'driving around for no reason' },
+  { label: 'plants 🌲🪴🎍🪴' },
   { label: 'running late at night' },
-  { label: 'going to the grocery store with my mom' },
-  { label: 'walking my dog with my friend' },
   { label: 'cowboy bebop' },
-  { label: 'terraria 🌳' },
+  { label: 'terraria' },
   { label: 'chocolate milk' },
-  { label: 'surfing 🌊' },
+  { label: 'surfing' },
   { label: 'fishing' },
+  { label: 'grocery store with my mom' },
 ]
 
 const renderMarqueeItems = () =>
@@ -84,92 +82,99 @@ const renderMarqueeItems = () =>
     .join('')
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <section class="hero snap" id="hero">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <div class="hero-label">— hi, my name is</div>
-        <h1 class="hero-name">
-          <span class="scramble" data-final="cesar">cesar</span>
-          <br/>
-          <span class="scramble" data-final="villegas.">villegas.</span>
-        </h1>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <a href="#" class="sidebar-link active" data-nav="home">HOME</a>
+      <a href="#" class="sidebar-link" data-nav="projects">PROJECTS</a>
+      <a href="#" class="sidebar-link" data-nav="week">THIS WEEK</a>
+      <a href="#" class="sidebar-link" data-nav="interests">INTERESTS</a>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">GITHUB ↗</a>
+      <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer" class="sidebar-ext">LINKEDIN ↗</a>
+      <a href="mailto:pvt.trisn@gmail.com" class="sidebar-ext">EMAIL ↗</a>
+      <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="sidebar-ext">DEVPOST ↗</a>
+    </div>
+  </nav>
 
-        <p class="bio">
-          data science @ <strong>ucsd '29</strong>, leaning hard into ml and software development.
-          <span class="bio-extra">- i go by tristan (middle name)</span>
-        </p>
-        <nav class="socials-row">
-          <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            GitHub
-          </a>
-          <span class="sep">/</span>
-          <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-            LinkedIn
-          </a>
-          <span class="sep">/</span>
-          <a href="mailto:pvt.trisn@gmail.com">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            pvt.trisn@gmail.com
-          </a>
-        </nav>
-      </div>
-      <aside class="things-i-like">
-        <div class="label">— things i like</div>
-        <div class="marquee-track">
-          ${renderMarqueeItems()}
+  <div class="main-content">
+    <section class="hero snap" id="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-label">— hi, my name is</div>
+          <h1 class="hero-name">
+            <span class="scramble" data-final="cesar">cesar</span>
+            <br/>
+            <span class="scramble" data-final="villegas.">villegas.</span>
+          </h1>
+
+          <p class="bio">
+            data science @ <strong>ucsd '29</strong>, leaning hard into ml and software development.
+            <span class="bio-extra">- i go by tristan (middle name)</span>
+          </p>
+          <nav class="socials-row mobile-only">
+            <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="sep">/</span>
+            <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <span class="sep">/</span>
+            <a href="mailto:pvt.trisn@gmail.com">Email</a>
+          </nav>
         </div>
-      </aside>
-    </div>
-    <div class="hero-scroll-container">
-      <div class="portfolio-label">Portfolio</div>
-      <button class="hero-scroll" type="button" aria-label="Scroll to continue">
-        <span>(scroll or arrows to continue)</span>
-        <span class="scroll-arrow">↓</span>
-      </button>
-    </div>
-  </section>
-
-  <section class="content snap" id="content">
-    <div class="page" id="page2">
-      <div class="page-inner">
-        <div class="page2-layout">
-          <div class="page2-projects">
-            <div class="label">— my best work</div>
-            <div class="projects-list">
-              ${renderProjects()}
-            </div>
-            <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
-              see more on devpost →
-            </a>
+        <aside class="things-i-like">
+          <div class="label">— things i like</div>
+          <div class="marquee-track">
+            ${renderMarqueeItems()}
           </div>
-          <div class="page2-sidebar">
-            <div class="page2-week">
-              <div class="label">— this week</div>
-              <ul class="week-list">
-                <li class="week-item">recording demos</li>
-                <li class="week-item">maybe launching pulp</li>
-                <li class="week-item">going to the casino</li>
-                <li class="week-item">skipping class</li>
-              </ul>
-            </div>
-            <div class="page2-interests">
-              <div class="label">— things i'm interested in</div>
-              <ul class="week-list">
-                <li class="week-item">optimizing workflow for hyperproductivity</li>
-                <li class="week-item">robust representation learning on noisy, unstructured data</li>
-                <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
-                <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
+        </aside>
       </div>
-    </div>
-  </section>
+      <div class="hero-scroll-container">
+        <div class="portfolio-label">Portfolio</div>
+        <button class="hero-scroll" type="button" aria-label="Scroll to continue">
+          <span>(scroll or arrows to continue)</span>
+          <span class="scroll-arrow">↓</span>
+        </button>
+      </div>
+    </section>
 
+    <section class="content snap" id="content">
+      <div class="page" id="page2">
+        <div class="page-inner">
+          <div class="page2-layout">
+            <div class="page2-projects">
+              <div class="label">— my best work</div>
+              <div class="projects-list">
+                ${renderProjects()}
+              </div>
+              <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
+                see more on devpost →
+              </a>
+            </div>
+            <div class="page2-sidebar">
+              <div class="page2-week">
+                <div class="label">— this week</div>
+                <ul class="week-list">
+                  <li class="week-item">recording demos</li>
+                  <li class="week-item">maybe launching pulp</li>
+                  <li class="week-item">going to the casino</li>
+                  <li class="week-item">skipping class</li>
+                </ul>
+              </div>
+              <div class="page2-interests">
+                <div class="label">— things i'm interested in</div>
+                <ul class="week-list">
+                  <li class="week-item">optimizing workflow for hyperproductivity</li>
+                  <li class="week-item">robust representation learning on noisy, unstructured data</li>
+                  <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
+                  <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
 `
 
 // ============ Text scramble (2Advanced-style decode) ============
@@ -328,11 +333,18 @@ const animateContentOut = () => {
   document.querySelector<HTMLElement>('.page2-interests')?.classList.remove('visible')
 }
 
+const updateSidebarActive = (idx: number) => {
+  document.querySelectorAll<HTMLAnchorElement>('.sidebar-link[data-nav]').forEach((link) => {
+    link.classList.toggle('active', (idx === 0 && link.dataset.nav === 'home') || (idx === 1 && link.dataset.nav !== 'home'))
+  })
+}
+
 const snapV = (idx: number) => {
   if (idx < 0 || idx >= vSections.length || idx === vIdx || isAnimating) return
   isAnimating = true
   vIdx = idx
   applySlideClasses(vSections, vIdx)
+  updateSidebarActive(vIdx)
   if (vIdx === 1) animateContentIn()
   else animateContentOut()
   setTimeout(() => { isAnimating = false }, 550)
@@ -385,5 +397,12 @@ window.addEventListener('touchend', (e) => {
   }
 }, { passive: true })
 
+// ============ Sidebar navigation ============
+document.querySelectorAll<HTMLAnchorElement>('.sidebar-link[data-nav]').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault()
+    snapV(link.dataset.nav === 'home' ? 0 : 1)
+  })
+})
 
 
