@@ -11,7 +11,7 @@ const projects = [
       'rich-text notebooks, decks & flashcards',
       'realtime sync, stats & leaderboard',
     ],
-    image: '/pictures/pulp.png',
+    image: '/pictures/pulp.jpg',
     video: '/videos/pulp.mp4',
     youtube: '',
     link: 'https://pulpnotes.com',
@@ -28,7 +28,7 @@ const projects = [
       'discord.js bot backed by supabase / sqlite',
       'won 1st at the SDx hackathon',
     ],
-    image: '/pictures/nialink.png',
+    image: '/pictures/nialink.jpg',
     video: '/videos/nialink.mp4',
     youtube: '',
     link: 'https://youtu.be/vpsYrznbtuE?si=Qa0y1ky0kSHMUBe-',
@@ -81,7 +81,7 @@ const renderProjects = () =>
             ? `<a class="project-media" href="${p.link}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.name}">`
             : `<div class="project-media">`}
             ${p.image
-              ? `<img class="project-video" src="${p.image}" alt="${p.name} preview" loading="lazy" />
+              ? `<img class="project-video" src="${p.image}" alt="${p.name} preview" decoding="async" fetchpriority="high" />
               ${p.details && p.details.length ? `<span class="project-caption">
                 <span class="caption-kicker">what i built</span>
                 <ul class="caption-list">
