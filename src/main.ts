@@ -5,9 +5,16 @@ const projects = [
     name: 'pulp',
     desc: 'a gamified note taking app for creatives',
     achievement: '',
+    details: [
+      'solo full-stack build',
+      'gamified focus timer that grows as you study',
+      'rich-text notebooks, decks & flashcards',
+      'realtime sync, stats & leaderboard',
+    ],
+    image: '/pictures/pulp.png',
     video: '/videos/pulp.mp4',
-    youtube: 'https://youtube.com/watch?v=TODO',
-    link: 'https://pulp-omega.vercel.app/',
+    youtube: '',
+    link: 'https://pulpnotes.com',
     stack: '100% typescript',
     tools: 'next.js · react · tailwind · supabase · framer motion',
   },
@@ -15,9 +22,16 @@ const projects = [
     name: 'nialink',
     desc: 'a discord bot that allows indexing an entire server',
     achievement: '🏆 1st SDx hackathon',
+    details: [
+      'indexes an entire discord server into search',
+      'natural-language queries over server history',
+      'discord.js bot backed by supabase / sqlite',
+      'won 1st at the SDx hackathon',
+    ],
+    image: '/pictures/nialink.png',
     video: '/videos/nialink.mp4',
-    youtube: 'https://youtube.com/watch?v=TODO',
-    link: 'https://github.com/devhyper/nialink',
+    youtube: '',
+    link: 'https://youtu.be/vpsYrznbtuE?si=Qa0y1ky0kSHMUBe-',
     stack: '100% javascript',
     tools: 'discord.js · supabase · sqlite',
   },
@@ -25,11 +39,35 @@ const projects = [
     name: 'bioscope',
     desc: 'advanced ecosystem intelligence',
     achievement: '🏆 1st datahacks 2026 (i carried)',
+    details: [
+      'interactive d3 graph of a regional food web',
+      'query any species → predators, prey & role',
+      'snowflake-backed data pipeline',
+      'won 1st at datahacks 2026',
+    ],
+    image: '/pictures/bioscope.png',
     video: '/videos/project3.mp4',
-    youtube: 'https://youtube.com/watch?v=TODO',
-    link: '',
+    youtube: '',
+    link: 'https://www.youtube.com/watch?v=R6QAX09ipwc',
     stack: 'typescript · python',
     tools: 'next.js · react · d3 · framer motion · snowflake',
+  },
+  {
+    name: 'skain',
+    desc: 'a self-healing drone-swarm mesh that detects attacks in real time',
+    achievement: '',
+    details: [
+      'self-healing drone-swarm mesh, resilient to node loss',
+      'self-trained xgboost detector flags cyber/jamming attacks live',
+      'second laptop joins as a killable node + attack console',
+      'built solo in 1.5 days — bow capital x firestorm',
+    ],
+    image: '/pictures/skain.svg',
+    video: '/videos/skain.mp4',
+    youtube: '',
+    link: 'https://www.youtube.com/watch?v=9NsFjA5MQFo',
+    stack: 'typescript · python',
+    tools: 'next.js · fastapi · docker · websockets · xgboost',
   },
 ]
 
@@ -39,10 +77,22 @@ const renderProjects = () =>
       (p) => `
       <div class="project-row">
         <div class="project-video-wrap">
-          <video class="project-video" src="${p.video}" muted loop playsinline preload="metadata"></video>
-          <div class="project-video-overlay">
-            <span class="project-play-hint">hover to preview</span>
-          </div>
+          ${p.link
+            ? `<a class="project-media" href="${p.link}" target="_blank" rel="noopener noreferrer" aria-label="Open ${p.name}">`
+            : `<div class="project-media">`}
+            ${p.image
+              ? `<img class="project-video" src="${p.image}" alt="${p.name} preview" loading="lazy" />
+              ${p.details && p.details.length ? `<span class="project-caption">
+                <span class="caption-kicker">what i built</span>
+                <ul class="caption-list">
+                  ${p.details.map((d) => `<li>${d}</li>`).join('')}
+                </ul>
+              </span>` : ''}`
+              : `<video class="project-video" src="${p.video}" muted loop playsinline preload="metadata"></video>
+              <div class="project-video-overlay">
+                <span class="project-play-hint">hover to preview</span>
+              </div>`}
+          ${p.link ? `</a>` : `</div>`}
           ${p.youtube ? `<a href="${p.youtube}" target="_blank" rel="noopener noreferrer" class="project-yt-link" aria-label="Watch full demo on YouTube">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             full demo
@@ -86,14 +136,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="sidebar-top">
       <a href="#" class="sidebar-link active" data-nav="home">HOME</a>
       <a href="#" class="sidebar-link" data-nav="projects">PROJECTS</a>
-      <a href="#" class="sidebar-link" data-nav="week">THIS WEEK</a>
-      <a href="#" class="sidebar-link" data-nav="interests">INTERESTS</a>
-      <a href="#" class="sidebar-link" data-nav="posts">POSTS</a>
     </div>
     <div class="sidebar-bottom">
       <a href="https://github.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">GITHUB ↗</a>
       <a href="https://www.linkedin.com/in/cesar-villegas-b49061314" target="_blank" rel="noopener noreferrer" class="sidebar-ext">LINKEDIN ↗</a>
-      <a href="https://x.com/Allghelierce" target="_blank" rel="noopener noreferrer" class="sidebar-ext">TWITTER ↗</a>
+      <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="sidebar-ext">DEVPOST ↗</a>
     </div>
   </nav>
 
@@ -137,47 +184,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <div class="projects-list">
             ${renderProjects()}
           </div>
-          <a href="https://devpost.com/pvt-trisn?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav" target="_blank" rel="noopener noreferrer" class="devpost-link">
-            see more on devpost →
-          </a>
         </div>
-        <div class="page-scroll-container page-scroll-right">
-          <div class="page-next-label">About Me</div>
-          <button class="page-scroll" type="button" aria-label="Scroll to about me">
-            <span class="scroll-arrow">→</span>
-          </button>
-        </div>
-      </div>
-      <div class="page" id="page3">
-        <div class="page-inner">
-          <div class="page3-layout">
-            <div class="page3-week">
-              <div class="label">— this week</div>
-              <ul class="week-list">
-                <li class="week-item">recording demos</li>
-                <li class="week-item">maybe launching pulp</li>
-                <li class="week-item">going to the casino</li>
-                <li class="week-item">skipping class</li>
-              </ul>
-            </div>
-            <div class="page3-interests">
-              <div class="label">— things i'm interested in</div>
-              <ul class="week-list">
-                <li class="week-item">optimizing workflow for hyperproductivity</li>
-                <li class="week-item">robust representation learning on noisy, unstructured data</li>
-                <li class="week-item">multi-modal AI orchestration and tool-augmented reasoning</li>
-                <li class="week-item">scalable systems architecture for high-throughput pipelines</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="posts-section snap" id="posts">
-      <div class="page-inner">
-        <div class="label">— posts</div>
-        <p class="posts-placeholder">coming soon.</p>
       </div>
     </section>
   </div>
@@ -294,12 +301,10 @@ document.querySelectorAll<HTMLElement>('.project-row').forEach((row) => {
 const hero = document.getElementById('hero')!
 const content = document.getElementById('content')!
 const page2 = document.getElementById('page2')!
-const page3 = document.getElementById('page3')!
-const posts = document.getElementById('posts')!
 const scrollHint = document.querySelector<HTMLButtonElement>('.hero-scroll')!
 
-const vSections: HTMLElement[] = [hero, content, posts]
-const hPages: HTMLElement[] = [page2, page3]
+const vSections: HTMLElement[] = [hero, content]
+const hPages: HTMLElement[] = [page2]
 let vIdx = 0
 let hIdx = 0
 
@@ -362,9 +367,7 @@ const updateSidebarActive = () => {
     const nav = link.dataset.nav
     const isActive =
       (vIdx === 0 && nav === 'home') ||
-      (vIdx === 1 && hIdx === 0 && nav === 'projects') ||
-      (vIdx === 1 && hIdx === 1 && (nav === 'week' || nav === 'interests')) ||
-      (vIdx === 2 && nav === 'posts')
+      (vIdx === 1 && nav === 'projects')
     link.classList.toggle('active', isActive)
   })
 }
@@ -482,13 +485,7 @@ document.querySelectorAll<HTMLAnchorElement>('.sidebar-link[data-nav]').forEach(
     if (nav === 'home') {
       snapV(0)
     } else if (nav === 'projects') {
-      if (vIdx === 0) snapV(1)
-      else snapH(0)
-    } else if (nav === 'posts') {
-      snapV(2)
-    } else {
-      if (vIdx === 0) { snapV(1); setTimeout(() => snapH(1), 600) }
-      else snapH(1)
+      snapV(1)
     }
   })
 })
