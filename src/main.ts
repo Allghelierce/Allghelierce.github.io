@@ -38,7 +38,7 @@ const projects = [
   {
     name: 'bioscope',
     desc: 'advanced ecosystem intelligence',
-    achievement: '🏆 1st datahacks 2026 (i carried)',
+    achievement: '🏆 1st datahacks 2026',
     details: [
       'interactive d3 graph of a regional food web',
       'query any species → predators, prey & role',
