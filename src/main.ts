@@ -156,7 +156,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           </h1>
 
           <p class="bio">
-            data science @ <strong>ucsd '29</strong>, leaning hard into ml and software development.
+            data science @ <strong>ucsd '29</strong>, building full-stack products with ml at the core — the kind that actually ship.
             <span class="bio-extra">- i go by tristan (middle name)</span>
           </p>
           <button class="copy-email" type="button" data-email="pvt.trisn@gmail.com">click here to copy my email</button>
