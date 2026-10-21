@@ -112,12 +112,13 @@ const renderProjects = () =>
 const marqueeItems = [
   { label: 'plants 🌲🪴🎍🪴' },
   { label: 'running late at night' },
-  { label: 'cowboy bebop' },
+  { label: 'coding' },
   { label: 'terraria' },
   { label: 'chocolate milk' },
   { label: 'surfing' },
   { label: 'fishing' },
-  { label: 'grocery store with my mom' },
+  { label: 'gym' },
+  { label: 'reading' },
 ]
 
 const renderMarqueeItems = () =>
